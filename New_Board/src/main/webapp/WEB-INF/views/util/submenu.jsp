@@ -6,7 +6,7 @@
 	<ul class="depth01">
 		<li><a href="/list" class="">일반게시판</a></li>
 		<li><a href="/alist" class="">AJAX 게시판</a></li>
-		<li><a href="/list" class="">막대그래프</a></li>
-		<li><a href="/list" class="">채팅</a></li>
+		<li><a href="/graph" class="">막대그래프</a></li>
+		<li><a href="/chatt" class="">채팅</a></li>
 	</ul>
 </div>

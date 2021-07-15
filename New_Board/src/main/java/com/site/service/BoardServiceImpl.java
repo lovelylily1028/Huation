@@ -38,6 +38,7 @@ public class BoardServiceImpl implements BoardService {
 
 	BoardDTO boardDTO;
 	CommentDTO commentDTO;
+	
 
 	int i = 0;
 
@@ -143,6 +144,7 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
+	
 	
 	@Override
 	public Map<String, Object> updateBoard_view(String bid) {
@@ -257,5 +259,7 @@ public class BoardServiceImpl implements BoardService {
 		os.close();
 
 	}
+
+	
 
 }//

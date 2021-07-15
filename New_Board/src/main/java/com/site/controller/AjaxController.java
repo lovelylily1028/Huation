@@ -90,7 +90,7 @@ public class AjaxController {
 	 *  수정된 값 ,db 전달
 	 */
 	@ResponseBody
-	@RequestMapping(value ="doEdit", method = RequestMethod.POST)
+	@RequestMapping(value ="/doEdit", method = RequestMethod.POST)
 	public  Map<String,Object> doEdit(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
 			@RequestParam @Nullable String category) throws UnsupportedEncodingException {
@@ -135,9 +135,13 @@ public class AjaxController {
 	@ResponseBody
 	@RequestMapping("/doCmt")
 	public Map<String,Object> doCmt(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
-			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model) {
+			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model,HttpServletRequest request) {
 		
 		map = new HashMap<String,Object>();
+		
+		HttpSession session = request.getSession();
+		String login_id = (String)session.getAttribute("user_id");
+		map.put("login_id", login_id);
 		
 		map = Service.cmtList(bid);
 		
@@ -164,9 +168,6 @@ public class AjaxController {
 		return map;
 	}
 	
-	
-	// 여기까지 완료-----------------------------------------------------------------------------------------------------
-	
 	/**
 	 * 댓글 등록 및 수정
 	 */
@@ -187,45 +188,53 @@ public class AjaxController {
 	}
 	
 	
+	
+	
 	/*
-	 * 새글 및 답글 작성페이지 호출
+	 * 새글 및 답글 작성페이지 내용 호출
 	 */
-	@RequestMapping("/add_view")
-	public String add_view(HttpSession session, Model model, @RequestParam @Nullable String bid,
+	@ResponseBody
+	@RequestMapping("/doAddView")
+	public Map<String,Object> doAddview(HttpSession session, Model model, @RequestParam @Nullable String bid,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
-			@RequestParam @Nullable String category) {
-
-		if (bid == null) {
-
-			model.addAttribute("route", "add");
-
-		} else {
-
-			map = Service.edit_view(bid);
-
-			model.addAttribute("map", map);
-			model.addAttribute("route", "reply");
-		}
-
-		model.addAttribute("category", category);
-		model.addAttribute("page", page);
-		model.addAttribute("search", search);
-
-		return "/ajax/Newadd";
+			@RequestParam @Nullable String category,HttpServletRequest request) {
+		
+		session = request.getSession();
+		String login_id = (String)session.getAttribute("user_id");
+		map.put("login_id", login_id);
+		
+		map = Service.edit_view(bid);
+		
+		return map;
+	}
+	
+	@RequestMapping("/aAdd")
+	public String aAdd(HttpSession session, Model model, @RequestParam @Nullable String bid,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
+			@RequestParam @Nullable String category,@RequestParam @Nullable String rmt) {
+		
+		return "/ajax/aadd";
 	}
 
+	
 	/**
 	 * 새글 , 답글 ,수정글 db 업로드 받아오는 rmt(request:요청) 값에 따라 db 처리를 다르게 함. ajaxService
 	 */
-	@RequestMapping(value = "addChk2", method = RequestMethod.POST)
-	public String add(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
+	@ResponseBody
+	@RequestMapping("/doAdd")
+	public Map<String,Object> ajaxadd(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
 			@RequestParam @Nullable String category) throws UnsupportedEncodingException {
-	
+		
 		i = Service.add(boardDto, file, rmt);
 		
-		return "/ajax/NewajaxBoard";
+		if (i == 1) {
+			map.put("result", "true");
+		} else {
+			map.put("result", "false");
+		}
+		
+		return map;
 	}
-	
 
 }//

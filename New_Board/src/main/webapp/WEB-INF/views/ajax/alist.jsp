@@ -5,9 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-		
+
 		<link rel="stylesheet" href="/resources/css/newCss.css" type="text/css" >
 		<link rel="stylesheet" href="/resources/css/NewCSS2.css" type="text/css">
 		
@@ -81,12 +79,6 @@
   			
 		}
 		
-		function add_view(){
-			
-  			window.open("/add_view", "_blank", "status=no, width=800, height=600, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
-			
-		}
-		
 		
 		<%-- 리스트를 불러오는 메소드--%>
 		function list(pageT){
@@ -140,6 +132,14 @@
 				}
 			})
 		}//
+		
+		
+		/* 새글 쓰기 창 불러오기 */
+		function add_view(){
+			
+  			window.open("/aAdd?rmt=add", "_blank", "status=no, width=800, height=800, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
+			
+		}
 		
 		</script>
 	</head>

@@ -55,6 +55,8 @@ public class BoardController {
 	 */
 	@RequestMapping("/graph")
 	public String graphBoardAccess(HttpSession session, Model model) {
+		
+		
 		return "graph/graph";
 	}
 

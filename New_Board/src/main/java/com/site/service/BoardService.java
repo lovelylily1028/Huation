@@ -26,6 +26,7 @@ public interface BoardService {
 	int insertBoardReply(BoardDTO boardDto, MultipartFile file);
 
 	void fileDown(String bid, HttpServletResponse response) throws Exception;
+
 	
 	
 
