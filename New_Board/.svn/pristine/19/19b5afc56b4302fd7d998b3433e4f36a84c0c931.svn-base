@@ -1,0 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<script type="text/javascript" src="/template/common/js/jquery/jquery-1.9.1.min.js"></script>
+	<link rel="stylesheet" href="/resources/css/newCss.css" type="text/css" charset="utf-8">
+	 
+	<title>HUATION😂😂</title>
+</head>
+<body>
+<!-- header start -->
+<div id="header">
+	<div class="container">
+		<div class="header">
+			<h1><a href="/"><img src="휴에이션 마크 넣을꺼임" alt="휴에이션 마크"></a></h1>
+			<div class="gnb">
+				<ul>
+					<li><a href="/">Home</a><span>|</span></li>
+					<!-- 로그인 후 로그 아웃으로 변경 -->
+					<li><a href="/">로그인</a><span>|</span></li>
+					<li><a href="/">회원가입</a></li>
+				</ul>
+			</div>
+		</div><!-- //header-->
+	</div><!-- //container -->
+
+	<div id="lnb">
+		<div class="container">
+			<div class="lnb">
+				<ul>
+					<li><a class="mMenu"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- //header -->
+
+<!-- warp_content start -->
+<div id="wrap">
+		<!-- sub start -->
+		<div class="sub_padding">
+		<div class="sub_container">
+		<div id="submenu">
+			<!-- 현재 페이지 별로 큰 제목이 바뀌게 -->
+			<h2 class="mnu08">메뉴</h2>
+				<ul class="depth01">
+					<li><a href="/NewList" class="">일반게시판</a></li>
+					<li><a href="/" class="">AJAX 게시판</a></li>
+					<li><a href="/" class="">막대그래프</a></li>
+					<li><a href="/" class="">채팅</a></li>
+				</ul>
+		</div>
+		<div id="contents" >
+		<div class="sub_top" id="sub_top01"> 
+			<!-- 페이지 메뉴별로 바뀌께-->
+			<h2>
+				게시판 작성
+			</h2>
+		</div>			
+		<div id="content">
+			<div id="bbs_wrap">
+				<form id="board" name="board" action="/cop/bbs/insertBoardArticle.do" method="post" enctype="multipart/form-data" onsubmit="return fn_egov_regist()">
+					<table summary="이 표는  게시글 작성 입니다." class="chart">
+						<tbody>
+							<tr>
+								<th class="num" scope="col">제목</th>
+								<th class="num" scope="col"><input></th>
+							</tr>					
+							<tr>
+								<th class="num" scope="col">작성자</th>
+								<th class="num" scope="col"><input></th>
+							</tr>					
+							<tr>
+								<th class="num" scope="col">내용</th>
+								<th class="num" scope="col">
+									<textarea rows="" cols=""></textarea>
+								</th>
+							</tr>					
+						</tbody>
+						<tfoot>
+						 	<tr>
+						 		<td colspan="2">
+						 			<div class="btn_all">
+										<div class="fR">
+											<span class="bbtn_s"><input type="submit" value="등록" title="검색(작은도서관 자유게시판 게시물 내)"></span>
+											<span class="bbtn_s"><input type="submit" value="취소" title="검색(작은도서관 자유게시판 게시물 내)"></span>
+										</div>				
+									</div>
+						 		</td>
+						 	</tr>
+						</tfoot>
+						</table>	
+					</form>		
+				</div>
+			</div><!-- Content End -->
+		</div><!-- CONTENTS END -->
+		</div><!-- sub_contaioner End -->
+		</div><!-- subPadding End -->
+	</div><!-- Wrap End -->
+		
+		<!-- footer start-->
+		<div id="footer">
+			<div id="cpy_info">
+				<div class="container">
+					<ul>
+						<li><a href="/" class="pr">개인정보취급방침</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="footer">
+				<div class="container">
+					<h2><img src="" alt="휴에이션 마크"></h2>
+					<div class="finfo">
+						<address><b>휴에이션</b> : 서울시 금천구 가산로5길 43 | 전화번호 02-865-6817~9 | 팩스 : 02-865-6820 </address>
+						<br><p>힘들댜 진쨔 ㅠㅠ</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //footer end-->
+</body>
+</html>

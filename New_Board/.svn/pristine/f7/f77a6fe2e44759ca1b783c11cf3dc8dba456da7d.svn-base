@@ -1,0 +1,216 @@
+package com.site.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.site.dto.BoardDTO;
+import com.site.dto.CommentDTO;
+import com.site.service.AjaxService;
+
+@Controller
+public class AjaxController {
+
+	Map<String, Object> map;
+	Map<String, Object> cmap;
+
+	@Autowired
+	AjaxService Service;
+
+	int i = 0;
+	String result = "";
+
+	@RequestMapping("/ajaxAccess")
+	public String ajaxAccess() {
+
+		return "/ajax/ajaxBoard";
+	}
+	
+	@RequestMapping("/ajaxAccess2")
+	public String ajaxAccess2() {
+		
+		return "/ajax/NewajaxBoard";
+	}
+
+	/*
+	 * 리스트 페이지
+	 */
+	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
+	public String list(HttpSession session, Model model, @RequestParam @Nullable String category,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search) {
+
+		map = Service.list(page, category, search);
+		model.addAttribute("map", map);
+
+		return "/ajax/list";
+	}
+	
+	@RequestMapping(value = "/Newajax", method = RequestMethod.POST)
+	public String Newlist(HttpSession session, Model model, @RequestParam @Nullable String category,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search) {
+		
+		map = Service.list(page, category, search);
+		model.addAttribute("map", map);
+		
+		return "/ajax/Newlist";
+	}
+
+	/*
+	 * 상세페이지
+	 */
+	@RequestMapping(value = "/view", method = RequestMethod.POST)
+	public String view(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
+			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model) {
+
+		map = Service.view(bid, page, category, search);
+		cmap = Service.cmtList(bid);
+
+		model.addAttribute("map", map);
+		model.addAttribute("cmap", cmap);
+
+		model.addAttribute("category", category);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
+
+		return "/ajax/view";
+
+	}
+	
+	@RequestMapping(value = "/Newview", method = RequestMethod.POST)
+	public String Newview(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
+			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model) {
+		
+		map = Service.view(bid, page, category, search);
+		cmap = Service.cmtList(bid);
+		
+		model.addAttribute("map", map);
+		model.addAttribute("cmap", cmap);
+		
+		model.addAttribute("category", category);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
+		
+		return "/ajax/Newview";
+		
+	}
+
+	/*
+	 * 새글 및 답글 작성페이지로 보냄
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/add_view", method = RequestMethod.POST)
+	public Map<String,Object> add_view(HttpSession session, Model model, @RequestParam @Nullable String bid,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
+			@RequestParam @Nullable String category) {
+
+		System.out.println("여기옴");
+		if (bid == null) {
+
+			model.addAttribute("route", "add");
+
+		} else {
+
+			map = Service.edit_view(bid);
+
+			model.addAttribute("map", map);
+			model.addAttribute("route", "reply");
+		}
+
+		model.addAttribute("category", category);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
+
+		map.put("result","/ajax/add");
+		
+		return map;
+	}
+	
+	
+	@RequestMapping("/ajax/add")
+	public String add_view2() {
+		
+		return "/ajax/add";
+	}
+	
+	/**
+	 * 새글 , 답글 ,수정글 db 업로드 받아오는 rmt(request:요청) 값에 따라 db 처리를 다르게 함. ajaxService
+	 */
+	@RequestMapping(value = "/addChk", method = RequestMethod.POST)
+	public String add(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
+			@RequestParam @Nullable String category) throws UnsupportedEncodingException {
+	
+		i = Service.add(boardDto, file, rmt);
+
+		return "/ajax/ajaxBoard";
+	}
+	
+	/**
+	 * 게시글 삭제 
+	 * 게시글 삭제부부은 paging 처리가 필요없을듯
+	 */
+	@RequestMapping(value = "/del", method = RequestMethod.POST)
+	public String delete(@RequestParam String bid, @RequestParam @Nullable String page,
+			@RequestParam @Nullable String search, @RequestParam @Nullable String category, Model model)
+			throws UnsupportedEncodingException {
+
+		i = Service.delete(bid);
+
+		return "/ajax/ajaxBoard";
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * 댓글 등록 및 수정 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/cmtAdd", method = RequestMethod.POST)
+	public Map<String,Object> cmtAdd(CommentDTO commentDto, Model model, @RequestParam @Nullable String bid,
+			@RequestParam @Nullable String cid, String crmt) throws UnsupportedEncodingException {
+
+		i = Service.addCmt(commentDto, crmt);
+
+		if(i == 1) {
+			map.put("result", "true");
+		}else {
+			map.put("result", "false");
+		}
+		
+		return map;
+	}
+
+	/**
+	 * 댓글 삭제
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/cmtDel", method = RequestMethod.POST)
+	public Map<String,Object> cmtDelete(@RequestParam String bid, @RequestParam String cid, Model model)
+			throws UnsupportedEncodingException {
+
+		i = Service.deleteCmt(bid, cid);
+
+		if(i == 1) {
+			map.put("result", "true");
+		}else {
+			map.put("result", "false");
+		}
+		
+		return map;
+	}
+
+}//

@@ -1,0 +1,140 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% 	String id = (String)session.getAttribute("user_id"); %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>HUATION</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="/resources/css/BoardContentView.css">
+		<script type="text/javascript" src="/resources/js/BoardCRUD.js"></script>
+	</head>
+	<body>
+		<jsp:include page="../util/mainHeader.jsp"></jsp:include>
+			<%-- 게시글 boardDto --%>
+			<h2>게시글 상세보기</h2>
+				<div class="contentInnerleft">
+					<div class="subject">
+					<input type="text" id="titleTemp" value="${map.boardDto.title}" readonly>
+					</div>
+					<div class="info">
+						${map.boardDto.user_id }  |  ${map.boardDto.day }  | 조회수: ${map.boardDto.hit }
+					</div>
+					<div class="commentBody">
+					<textarea rows="15" cols="10" id="contentTemp" readonly>${map.boardDto.contents }</textarea>
+					</div>
+				</div>
+					<div class="xright">
+					<%-- 첨부파일 부분 --%>
+					<c:choose>
+			      		<c:when test="${map.boardDto.fileName ==null }">
+							<span>첨부된 파일이 없습니다.</span>
+			       		</c:when>
+			    	 	<c:otherwise>
+				       		<span> <a href="/fileDown?bid=${map.boardDto.bid}">첨부된 파일 :${map.boardDto.fileName }</a></span>
+			    		</c:otherwise>
+			        </c:choose>
+			        </div>
+			        <c:set var="id" value="<%=id %>"/>
+					        
+					        <%-- 게시물 수정 / 삭제 --%>
+					        <div class="xright">
+					       		<c:if test="${id eq map.boardDto.user_id }">
+					       			<form action="/board/edit" method="post" enctype="multipart/form-data" id="editForm">
+					       				 <input type="hidden" id="user_id"name="user_id" id="user_id" value="<%= id %>">
+										 <input type="hidden" id="bid" name="bid" value="${map.boardDto.bid }">
+										 <input type="hidden" id="title" name="title" value="${map.boardDto.title }">
+										 <input type="hidden" id="contents" name="contents" value="${map.boardDto.contents }">
+										 <input type="hidden" id="fileName" name="fileName" value="${map.boardDto.fileName}">
+											
+										 <input type="hidden" id="file" name="file">
+
+										<input type="hidden" id="updateSubmit" onclick="editCheck(this.form)" value="수정완료">
+					       				<input type="button" id="updateBtn" value="수정" onclick="editToggle()">
+					       				<input type="button" value="삭제" onclick="DeleteCheck(this.form)">
+					       			</form>
+						   		</c:if>
+					        </div>
+					        
+					        <%-- 게시물에 답글을 다는 경우 --%>
+						   	<c:if test="${not empty id }">
+								<button type="button" onclick="boardCRUD('reply','${map.boardDto.bid}')">답글달기</button>
+							</c:if>		
+							<%-- 리스트 페이지로 돌아기기  --%>
+			  					<button type="button" onclick="location.href='./list?category=${map.category}&page=${map.page }&search=${map.search }'"> 목록으로 돌아가기 </button>
+			<%-- 게시물 끝 --%>
+			 
+			<%-- 댓글 --%>
+			 <h2>댓글</h2> 
+			  <c:set var="user_id" value="<%=id%>"/>
+			 
+			 	<div class="subject">
+					<%-- 댓글이 없을 경우 --%>
+					<c:if test="${empty cmap.clist }">
+						<div># 현재 작성된 댓글이 없습니다.</div>
+			 		</c:if>
+					<%-- 댓글이 있는 경우 --%>	
+					 <c:set var="list" value="${cmap.clist }"/>
+					 <h4>${fn:length(list)}개의 댓글이 있습니다.</h4>
+			 			<%-- 댓글 clist 출력 시작 및 수정 Form --%>
+						<c:forEach var="cdto" items="${cmap.clist }">
+								<form class="commentBox" method="post" action="/board/commentEdit">
+									<input type="hidden" name="bid" value="${map.boardDto.bid }">
+									<input type="hidden" name="cid" value="${cdto.cid }">
+									<input type="hidden" name="content" value="${cdto.content }">
+									
+									<div class="comment">
+										<div>
+											<span class="name">${cdto.user_id }</span>
+											<span>${cdto.cdate }</span>
+											<div class="commentBody">
+												<textarea id="contentTemp" readonly>${cdto.content }</textarea>
+											</div>
+										</div>
+										
+										<%-- 로그인된 아이디와 작성자가 같을 경우 --%>
+										<c:if test="${id eq cdto.user_id }">
+											<div class="xright">
+												<input type="hidden" id="commentHidden" onclick="commentCRUD('2',this.form)" value="수정완료">
+												<input type="button" id="commentToggle" onclick="Edit(this.form)" value="수정">			        
+												<button type="button"onclick="commentCRUD('3',this.form)">삭제</button>			        
+											</div>
+										</c:if>
+									</div>
+								</form>
+			 			</c:forEach>
+			 			<%-- 댓글 clist 출력 끝 --%>
+			 	</div>
+			 	
+			 	<%-- 댓글 작성 form --%> 
+			 	<div style="margin-top:10px;">
+			 		<form action="/board/CommentCheck" method="post" name="commentForm">
+			 			<input type="hidden" name="user_id" id="user_id" value="<%=id%>">
+			 			<input type="hidden" name="bid" id="bid" value="${map.boardDto.bid }">
+			 				<c:choose>
+			 					<c:when test="<%=id == null%>">
+									<div class="content">댓글을 작성하려면 로그인 해주세요.😉😉</div>
+			 					</c:when>
+			 					<c:otherwise>
+			 						<div>
+			 							<div class="name">
+			 								<%= id %>
+			 							</div>
+			 							<div class="commentBody">
+			 								<textarea rows="3" cols="10" id="content" name="content" placeholder="댓글을 입력해주세요."></textarea>
+			 							</div>
+			 							<div class="xright">
+								 			<input type="button" onclick="commentCRUD('1',this.form)" value="댓글 등록하기">
+			 							</div>
+			 						</div>
+			 					</c:otherwise>
+			 				</c:choose>
+			 		</form>
+			  	</div>    
+				<%-- 댓글 작성 form 끝 --%>
+		<jsp:include page="../util/mainFooter.jsp"></jsp:include>
+	</body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.site.mapper.ExcelMapper">
+  
+  	<select id="selectList" resultType="com.site.dto.BoardDTO">
+  				SELECT user_id,
+		                    bid,
+		                    title,
+		                    contents,
+		                    filename,
+		                    day,
+		                    hit,
+		                    bgroup,
+		                    bstep,
+		                    bindent
+		       FROM   yj_notice_board 
+		       	
+		<if test="search == null">
+			ORDER BY bgroup+0 DESC, bstep+0 ASC
+		</if>
+		<if test='category.equals("all")'>
+			WHERE title LIKE '%'||#{search}||'%' 
+			OR user_id LIKE '%'||#{search}||'%'
+			OR contents LIKE '%'||#{search}||'%'
+			ORDER BY bgroup+0 DESC, bstep+0 ASC
+		</if>
+		<if test='category.equals("title")'>
+			WHERE title LIKE '%'||#{search}||'%' 
+			ORDER BY bgroup+0 DESC, bstep+0 ASC
+		</if>
+		<if test='category.equals("writer")'>
+			WHERE user_id LIKE '%'||#{search}||'%'
+			ORDER BY bgroup+0 DESC, bstep+0 ASC
+		</if>	
+		<if test='category.equals("content")'>
+			WHERE contents LIKE '%'||#{search}||'%'
+			ORDER BY bgroup+0 DESC, bstep+0 ASC
+		</if>	
+		
+  	</select>
+  
+  
+  
+  	<insert id="excelInsert">
+  		INSERT INTO yj_notice_board (
+					user_id,
+					bid,
+					title,
+					contents,
+					day,
+					hit,
+					bgroup,
+					bstep,
+					bindent
+		)	VALUES(
+					 #{user_id},
+		             testboard.nextval,
+		             #{title},
+		             #{contents},
+		             sysdate,
+		             0,
+		             testboard.currval,
+		             0,
+		             0
+		      ) 
+  	</insert>
+  
+  
+    <!-- 엑셀 업로드 - DB 저장 -->
+   <insert id="insertExcelUp">
+		INSERT INTO yj_notice_board
+		            (bid,
+		             title,
+			   		 user_id,
+			   		 contents, 
+			   		 day, 
+			   		 hit,
+			   		 bgroup,
+			   		 bstep,
+			   		 bindent
+	)VALUES     (
+					testboard.nextval,
+					#{title},
+					#{user_id},
+					#{contents},
+					TO_DATE(#{day}, 'YYYY-MM-DD HH24:mi:SS'),
+					0,
+					testboard.currval,
+					'0', 
+					'0') 
+  </insert>
+  
+  
+  
+  
+  
+  </mapper>

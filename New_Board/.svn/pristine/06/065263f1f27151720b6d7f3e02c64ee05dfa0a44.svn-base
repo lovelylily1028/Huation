@@ -1,0 +1,67 @@
+package com.site.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.site.dto.UserDTO;
+import com.site.service.UserService;
+
+@Controller
+public class LoginController {
+
+	
+	@Autowired
+	UserService userService;
+
+	UserDTO userDto;
+	
+	
+	/*
+	 * 로그인 페이지
+	 */
+	@RequestMapping("/login")
+	public String login(HttpSession session, Model model) {
+		return "user/loginPage";
+	}
+	
+	/*
+	 * 로그인 확인
+	 */
+	@RequestMapping("/loginCheck")
+	public String loginAccess(HttpServletRequest request, String user_id, String user_pw, Model model) {
+
+		userDto = new UserDTO();
+		userDto = userService.loginCheck(user_id, user_pw);
+
+		if (userDto != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("user_id", userDto.getUser_id());
+			
+			model.addAttribute("msg",userDto.getUser_name()+"님 환영합니다.");
+			model.addAttribute("location", "/NewList");
+		} else {
+			model.addAttribute("msg", "로그인에 실패하였습니다.");
+			model.addAttribute("location", "/");
+		}
+
+		return "util/message";
+	}
+
+
+	/*
+	 * 로그아웃
+	 */
+	@RequestMapping("/logout")
+	public String logoutAccess(HttpSession session, Model model) {
+		session.invalidate();
+		model.addAttribute("msg", "로그아웃되었습니다.");
+		model.addAttribute("location", "/");
+		return "util/message";
+	}
+	
+}
