@@ -84,7 +84,7 @@
 		
 		/* 답글 작성페이지로 이동 */
 		function replyView(bid){
-			location.href="Board/reply_view?bid="+bid;
+			location.href="board/reply_view?bid="+bid;
 		}
 		
 		/* 댓글 등록 수정,삭제 */
@@ -139,7 +139,7 @@
 		<link rel="stylesheet" href="/resources/css/newCss.css" type="text/css">
 		<link rel="stylesheet" href="/resources/css/NewCSS2.css" type="text/css">
 		
-		<title>상세보기</title>
+		<title>HUATION</title>
 	</head>
 	<body>
 		<jsp:include page="../util/Header.jsp"></jsp:include>
@@ -265,7 +265,7 @@
 									<dl>
 										<dt>이전글 ▲</dt>
 										<dd>
-											<a href="">도서신청이요^^</a>
+											${map.boardDto.pre_title }
 										</dd>
 									</dl>
 								</div>
@@ -273,7 +273,7 @@
 									<dl>
 										<dt>다음글 ▼</dt>
 										<dd>
-											<a href="">도서 신청하려하는데</a>
+											${map.boardDto.pre_title }
 										</dd>
 									</dl>
 								</div>

@@ -34,8 +34,7 @@ public class BoardController {
 	int i = 0;
 
 	/*
-	 * 메인페이지
-	 * 로그인 페이지로 바로 연결
+	 * 메인페이지 >> 로그인 페이지로 바로 연결
 	 */
 	@RequestMapping("/")
 	public String mainAccess(HttpSession session, Model model) {
@@ -48,16 +47,6 @@ public class BoardController {
 	@RequestMapping("/joinPage")
 	public String newUserJoin(HttpSession session, Model model) {
 		return "/user/joinPage";
-	}
-
-	/*
-	 * 막대 그래프 페이지
-	 */
-	@RequestMapping("/graph")
-	public String graphBoardAccess(HttpSession session, Model model) {
-		
-		
-		return "graph/graph";
 	}
 
 	/*
@@ -155,13 +144,11 @@ public class BoardController {
 
 		return "util/message";
 	}
-
-	
 	
 	/*
 	 * 일반게시판 답글 작성페이지로 보냄
 	 */
-	@RequestMapping("/Board/reply_view")
+	@RequestMapping("/board/reply_view")
 	public String boardReply_view(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
 			@RequestParam @Nullable String search, @RequestParam @Nullable String category, Model model) {
 

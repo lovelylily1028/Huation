@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.site.dto.BoardDTO;
 import com.site.dto.CommentDTO;
+import com.site.dto.GraphDTO;
 
 @Mapper
 public interface BoardMap {
@@ -34,6 +35,8 @@ public interface BoardMap {
 	int listCount(String search,String category);
 
 	BoardDTO fileDownInfo(String bid);
+
+	List<GraphDTO> graphList();
 
 
 	

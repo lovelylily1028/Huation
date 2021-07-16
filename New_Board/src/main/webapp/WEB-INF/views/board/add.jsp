@@ -42,7 +42,7 @@
 	<link rel="stylesheet" href="/resources/css/newCss.css" type="text/css"	>
 	<link rel="stylesheet" href="/resources/css/NewCSS2.css" type="text/css">
 	
-	<title>HUATION😂😂</title>
+	<title>HUATION</title>
 	</head>
 	<body>
 	<jsp:include page="../util/Header.jsp"></jsp:include>

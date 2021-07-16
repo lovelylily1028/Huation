@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,11 +10,10 @@
 	<link rel="stylesheet" href="/resources/css/newCss.css" type="text/css" >
 	<link rel="stylesheet" href="/resources/css/NewCSS2.css" type="text/css">
 	
-	<title>HUATION😂😂</title>
+	<title>HUATION</title>
 	
 	<script type="text/javascript">
-		alert($(map.glist.length))
-	
+		alert(${fn:length(map.glist)}+"개의 데이터를 담아왔습니다.")
 	</script>
 	
 </head>
@@ -52,7 +52,7 @@
 	    	/* 일자 부분 */
 	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
 	        datasets: [{
-	            label: '# 최근 일주일 일자별 게시물 등록 수',
+	            label: '# 날짜별 게시글 등록 수',
 	            /* 데이터 */
 	            data: [15, 19, 3, 5, 2, 3],
 	            backgroundColor: [

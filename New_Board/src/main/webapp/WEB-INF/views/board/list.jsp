@@ -20,7 +20,7 @@
 			f.submit();
 		}
 		</script>
-	<title>HUATION😂😂</title>
+	<title>HUATION</title>
 </head>
 <body>
 	<jsp:include page="../util/Header.jsp"></jsp:include>

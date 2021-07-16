@@ -22,5 +22,10 @@ public class BoardDTO {
 	private int bstep;
 	private int bindent;
 	
+	private String next_bid;
+	private String next_title;
+	private String pre_bid;
+	private String pre_title;
+	
 	
 }

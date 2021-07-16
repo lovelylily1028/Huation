@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.site.dto.BoardDTO;
 import com.site.dto.CommentDTO;
+import com.site.dto.GraphDTO;
 import com.site.mapper.BoardMap;
 
 @Service
@@ -33,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
 	PageNumber pageNumber;
 
 	List<BoardDTO> list;
-
+	
 	Map<String, Object> map;
 
 	BoardDTO boardDTO;
@@ -144,7 +145,6 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
-	
 	
 	@Override
 	public Map<String, Object> updateBoard_view(String bid) {
@@ -260,6 +260,7 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	
 	
 
 }//
