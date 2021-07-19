@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.site.dto.BoardDTO;
 import com.site.dto.CommentDTO;
-import com.site.dto.GraphDTO;
 import com.site.mapper.BoardMap;
 
 @Service

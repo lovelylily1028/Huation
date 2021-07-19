@@ -73,9 +73,9 @@
   			var popupY= (window.screen.height /2) - (400 / 2);
 		
 		/* 상세보기 페이지 */
-		function view(bidT,pageT){
+		function view(codeT,pageT){
   			
-  			window.open("/aview?bid="+bidT+"&page="+pageT, "_blank", "status=no, width=800, height=800, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
+  			window.open("/aview?code="+codeT+"&page="+pageT, "_blank", "status=no, width=800, height=800, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
   			
 		}
 		
@@ -98,25 +98,19 @@
 						html="";
 						for(i=0; i<data.list.length; i++){
 							html += "<tr>";
-							html += "<td class='num'>"+data.list[i].bid+"</td>";
+							html += "<td class='num'>"+data.list[i].code+"</td>";
 							html += "<td class='tit'>";
-						    html += "<div class='box' onclick='view("+data.list[i].bid+","+data.page+")'>"; 
-						    	if(data.list[i].bindent !=0){
-						    		for(j=0; j<data.list[i].bindent; j++){
-						    			html += "└▶";
-						    		}
-						    	}
+						    html += "<div class='box' onclick='view("+data.list[i].code+","+data.page+")'>";
+								    if(data.list[i].level !=1){
+							    		for(j=1; j<data.list[i].level; j++){
+											html +="&emsp;";
+							    		}
+							    			html += "└▶";
+							    	}
 						    html += data.list[i].title;
 		                    html += "</div></td>";
-		                    html += "<td class='writer'>"+data.list[i].user_id+"</td>";
-		                    html += "<td class='file'>";
-		                    if(data.list[i].fileName != null ){
-		                    	html +="<img src='/resources/img/ico_file.gif'>";
-		                    }else{
-				                html +="-";
-		                    }
-		                    html +="</td>";
-		                    html += "<td class='date'>"+data.list[i].day+"</td>";
+		                    html += "<td class='writer'>"+data.list[i].writer+"</td>";
+		                    html += "<td class='date'>"+data.list[i].reg_datetime+"</td>";
 		                    html += "<td class='hits'>"+data.list[i].hit+"</td></tr>";
 						}
 					}
@@ -177,7 +171,6 @@
 							<th class="num" scope="col">번호</th>
 							<th class="tit" scope="col">제목</th>
 							<th class="writer" scope="col">작성자</th>
-		 					<th class="file" scope="col">파일</th>
 							<th class="date" scope="col">작성일</th>
 							<th class="hits" scope="col">조회수</th>
 						</tr>					

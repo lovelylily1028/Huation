@@ -102,6 +102,7 @@ table.chart1 { border-collapse:collapse; width:100%; font-size:13px;line-height:
 table.chart1 th,  table.chart1 td {border: 1px solid #d9d9d9;padding:5px 10px;text-align:center;}
 table.chart1 thead th {background:#f7f7f7;border:1px solid #d9d9d9;text-align:center;color:#6c6c6c}
 table.chart1 tbody td{text-align:center;}
+table.chart1 tbody td.tit{text-align:left;}
 table.chart1 tbody td.bg{background:#f7f7f7;}
 table.chart1 td.alL{text-align:left;}
 

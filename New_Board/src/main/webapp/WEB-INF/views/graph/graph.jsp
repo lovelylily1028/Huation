@@ -12,8 +12,75 @@
 	
 	<title>HUATION</title>
 	
-	<script type="text/javascript">
-		alert(${fn:length(map.glist)}+"개의 데이터를 담아왔습니다.")
+	<script>
+		$(function() {
+
+			function makeChart(ctx,labels, data) {
+				var myChart = new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				        labels: labels,
+				        datasets: [{
+				            label: '날짜별 게시글 등록 수',
+				            data: data,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255,99,132,1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero:true
+				                }
+				            }]
+				        }
+				    }
+				});
+			}
+			
+			$.ajax({
+				type: "GET",
+				url: "dograph",
+				success: function(data, status, xhr) {
+
+					// JSON 객체 배열 데이터를 Javascript 배열로 변환
+					console.log(data);
+					var labels = [];
+					var myData = [];
+					data.map(function(item) {
+						labels.push(item.wrtday);
+					});
+					data.map(function(item) {
+						myData.push(item.bcount);
+					});
+
+					var newLabels = labels.slice(-5);
+					var newMyData = myData.slice(-5);
+
+					// Chart.js 막대그래프 그리기
+					var ctx = $('#myChart');
+					makeChart(ctx, newLabels, newMyData);
+				}
+			});
+			
+		});
 	</script>
 	
 </head>
@@ -31,64 +98,10 @@
 			<h2>막대그래프</h2>
 		</div>
 		<!-- 게시판 부분 시작 -->
-		<div id="content" style="border: 3px solid red;">
+		<div id="content">
 		<%-- 내용이 들어가는 부분 --%>
 		<canvas id="myChart"></canvas>
 
-		
-		<script type="text/javascript">
-		
-	// 우선 컨텍스트를 가져옵니다. 
-	var ctx = document.getElementById("myChart").getContext('2d');
-	
-	/*
-	- Chart를 생성하면서, 
-	- ctx를 첫번째 argument로 넘겨주고, 
-	- 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다. 
-	
-		에이젝스를 사용하여 페이지가 들어오면 바로 데이터 처리가 가능해지도록 구현하자
-	*/
-	var myChart = new Chart(ctx, {
-	    type: 'bar',
-	    data: {
-	    	/* 일자 부분 */
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-	        datasets: [{
-	            label: '# 날짜별 게시글 등록 수',
-	            /* 데이터 */
-	            data: [15, 19, 3, 5, 2, 3],
-	            backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
-	            ],
-	            borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
-	            ],
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }]
-	        }
-	    }
-	});
-	
-	</script>
 		
 	</div><!-- //content -->
 </div>

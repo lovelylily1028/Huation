@@ -2,28 +2,26 @@ package com.site.service;
 
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.site.dto.BoardDTO;
-import com.site.dto.CommentDTO;
+import com.site.dto.AjaxBoardDTO;
+import com.site.dto.AjaxCommentDTO;
 
 public interface AjaxService {
 
-	Map<String, Object> list(String page, String category, String search);
+	Map<String, Object> list(String page);
 
-	Map<String, Object> view(String bid, String page, String category, String search);
+	Map<String, Object> view(String code, String page, String category, String search);
 
-	Map<String, Object> edit_view(String bid);
+	Map<String, Object> edit_view(String code);
 
-	int add(BoardDTO boardDto, MultipartFile file, String rmt);
+	int add(AjaxBoardDTO ajaxDto, String rmt);
 
-	int delete(String bid);
+	int delete(String code);
 	
-	Map<String, Object> cmtList(String bid);
+	Map<String, Object> cmtList(String code);
 
-	int addCmt(CommentDTO commentDto, String crmt);
+	int addCmt(AjaxCommentDTO ajaxcommentDto, String crmt);
 
-	int deleteCmt(String bid, String cid);
+	int deleteCmt(String code, String ccode);
 
 
 

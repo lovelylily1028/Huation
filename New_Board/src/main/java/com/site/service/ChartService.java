@@ -1,8 +1,10 @@
 package com.site.service;
 
-import java.util.Map;
+import java.util.List;
+
+import com.site.dto.GraphDTO;
 
 public interface ChartService {
 
-	Map<String, Object> graphList();
+	List<GraphDTO> graphList();
 }

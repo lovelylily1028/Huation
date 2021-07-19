@@ -1,48 +1,42 @@
 package com.site.service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.site.dto.BoardDTO;
-import com.site.dto.CommentDTO;
+import com.site.dto.AjaxBoardDTO;
+import com.site.dto.AjaxCommentDTO;
 import com.site.mapper.AjaxMap;
-import com.site.mapper.BoardMap;
 
 @Service
 public class AjaxServiceImpl implements AjaxService {
 
 	@Autowired
-	BoardMap boardMapper;
-
-	@Autowired
 	AjaxMap mapper;
 
 	@Autowired
-	PageNumber pageNumber;
+	PageNumber2 pageNumber;
 
-	List<BoardDTO> list;
+	List<AjaxBoardDTO> list;
 
 	Map<String, Object> map;
 
-	BoardDTO boardDTO;
-	CommentDTO commentDTO;
+	AjaxBoardDTO aDTO;
+	
+	AjaxCommentDTO ajaxcommentDTO;
 
-	List<CommentDTO> clist = new ArrayList<CommentDTO>();
+	List<AjaxCommentDTO> clist = new ArrayList<AjaxCommentDTO>();
 
 	int i = 0;
 
 	@Override
-	public Map<String, Object> list(String listPage, String category, String search) {
+	public Map<String, Object> list(String listPage) {
 
-		list = new ArrayList<BoardDTO>();
+		list = new ArrayList<AjaxBoardDTO>();
 		int page = 1;
 		int limit = 10;
 
@@ -53,89 +47,63 @@ public class AjaxServiceImpl implements AjaxService {
 		int startrow = (page - 1) * limit + 1; // 시작 게시글번호 1,11,21...
 		int endrow = startrow + limit - 1; // 마지막 게시글번호 10,20,30...
 
-		list = mapper.list(startrow, endrow, search, category);
+		list = mapper.list(startrow, endrow);
 
 		map = new HashMap<String, Object>();
-		map = pageNumber.pageNumber(page, limit, category, search);
+		map = pageNumber.pageNumber(page, limit);
 
 		map.put("list", list);
 
 		return map;
 	}
 
-	@Override
-	public Map<String, Object> view(String bid, String page, String category, String search) {
-
-		// ajax의 경우 새로고침시 리스트 페이지로 돌아가기에 쿠키부분 생략 (조회수 증가)
-		mapper.HitUp(bid);
-
-		// content 1개 가져오기
-		boardDTO = mapper.view(bid);
-		map.put("boardDto", boardDTO);
-		map.put("category", category);
-		map.put("search", search);
-		map.put("page", page);
-
-		return map;
-	}
-
-	@Override
-	public Map<String, Object> edit_view(String bid) {
-
-		boardDTO = mapper.view(bid);
-		map.put("boardDto", boardDTO);
-
-		return map;
-	}
-
+	
+	  @Override 
+	  public Map<String, Object> view(String code, String page, String  category, String search) {
+	  
+	  // ajax의 경우 새로고침시 리스트 페이지로 돌아가기에 쿠키부분 생략 (조회수 증가)
+		 
+	  mapper.HitUp(code);
+	  
+	  // content 1개 가져오기 
+		  
+	  aDTO = mapper.view(code); 
+	  map.put("aDto", aDTO);
+	  
+	  map.put("category", category);
+	  map.put("search", search);
+	  map.put("page",
+	  page);
+	  
+	  return map; 
+	  
+	  }
+	  
+	  @Override
+	  public Map<String, Object> edit_view(String code) {
+	  
+		  aDTO = mapper.view(code);
+		  map.put("ajaxDto", aDTO);
+	  
+	  return map;
+	  }
+	
+	 
 	/*
 	 * 게시글 등록,수정,답글 DB처리
 	 */
 	@Override
-	public int add(BoardDTO boardDto, MultipartFile file, String rmt) {
-
-		// 원본파일 이름
-		String fileName = file.getOriginalFilename();
-		// 확장자명 가져오기
-		String filenameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
-
-		// 확장자명으로 첨부파일이 비었는지 확인
-		if (filenameExtension != "") {
-
-			// 파일저장위치
-			String fileUrl = "D:/Data/";
-			File f = new File(fileUrl + fileName);
-			
-			// 파일업로드
-			try {
-				file.transferTo(f);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			// 파일이름저장
-			boardDto.setFileName(fileName);
-		} else {
-			if (rmt.equals("add")|| rmt.equals("reply")) {
-				// 작성페이지에서 파일이 없는 경우 빈값을 저장
-				boardDto.setFileName("");
-
-			} else {
-				// 수정페이지에서 첨부파일이 없는 경우 기존 파일이름을 그대로 저장시키면됨.
-				boardDto.setFileName(boardDto.getFileName());
-			}
-		}
+	public int add(AjaxBoardDTO ajaxDto, String rmt) {
 
 		switch (rmt) {
 		case "add":
-			i = mapper.add(boardDto);
+			i = mapper.add(ajaxDto);
 			break;
 		case "reply":
-			i = mapper.addReply(boardDto);
-			mapper.addReplyPlus(boardDto);
+			i = mapper.addReply(ajaxDto);
 			break;
 		default:
-			i = mapper.edit(boardDto);
+			i = mapper.edit(ajaxDto);
 			break;
 		}
 
@@ -146,9 +114,9 @@ public class AjaxServiceImpl implements AjaxService {
 	 * 게시글 삭제
 	 */
 	@Override
-	public int delete(String bid) {
+	public int delete(String code) {
 
-		i = mapper.delete(bid);
+		i = mapper.delete(code);
 
 		return i;
 	}
@@ -157,9 +125,9 @@ public class AjaxServiceImpl implements AjaxService {
 	 * 댓글 리스트
 	 */
 	@Override
-	public Map<String, Object> cmtList(String bid) {
+	public Map<String, Object> cmtList(String code) {
 
-		clist = mapper.cmtList(bid);
+		clist = mapper.cmtList(code);
 
 		map.put("clist", clist);
 
@@ -170,14 +138,14 @@ public class AjaxServiceImpl implements AjaxService {
 	 * 댓글 등록 및 수정
 	 */
 	@Override
-	public int addCmt(CommentDTO commentDto, String crmt) {
+	public int addCmt(AjaxCommentDTO ajaxcommentDto, String crmt) {
 
 		switch (crmt) {
 		case "add":
-			i = mapper.addCmt(commentDto);
+			i = mapper.addCmt(ajaxcommentDto);
 			break;
 		default:
-			i = mapper.editCmt(commentDto);
+			i = mapper.editCmt(ajaxcommentDto);
 			break;
 		}
 
@@ -188,14 +156,13 @@ public class AjaxServiceImpl implements AjaxService {
 	 * 댓글 삭제
 	 */
 	@Override
-	public int deleteCmt(String bid, String cid) {
+	public int deleteCmt(String code, String ccode) {
 
-		i = mapper.deleteCmt(bid, cid);
+		i = mapper.deleteCmt(code, ccode);
 
 		return i;
 	}
-	
-	
+
 	
 	
 	

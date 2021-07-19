@@ -1,216 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
  <mapper namespace="com.site.mapper.AjaxMap">
 	
 	<!-- 리스트 가져오기 -->
-	<select id="list" resultType="com.site.dto.BoardDTO">
-		SELECT*
-		FROM (SELECT rownum rnum,
-		              a.*
-		       FROM (SELECT user_id,
-		                    bid,
-		                    title,
-		                    bcontents,
-		                    filename,
-		                    day,
-		                    hit,
-		                    bgroup,
-		                    bstep,
-		                    bindent
-		       FROM   yj_notice_board 
-		       				
-		<if test='search != null and category.equals("all")'>
-					WHERE title LIKE '%'||#{search}||'%' 
-					OR user_id LIKE '%'||#{search}||'%'
-					OR bcontents LIKE '%'||#{search}||'%'
-		</if>
-		<if test='search != null and category.equals("title")'>
-					WHERE title LIKE '%'||#{search}||'%' 
-		</if>
-		<if test='search != null and category.equals("writer")'>
-					WHERE user_id LIKE '%'||#{search}||'%'
-		</if>	       				
-		<if test='search != null and category.equals("content")'>
-					WHERE bcontents LIKE '%'||#{search}||'%'
-		</if>	       				
-		       				order by
-		       				bgroup desc,
-		       				bstep asc
-		       				
-		       ) a)
-		WHERE rnum >= #{startrow}
+	<select id="list" resultType="com.site.dto.AjaxBoardDTO">
+			
+			SELECT * FROM (
+			SELECT
+			 rownum rnum, a.* 
+			FROM(
+			SELECT 
+					code,
+					originno,
+					title,
+					acontent,
+					writer,
+					reg_datetime,
+					hit,
+					level 
+			FROM YJ_AJAX_BOARD
+				START WITH originno is null
+				CONNECT BY PRIOR code = originno
+			)a) 
+			WHERE rnum >= #{startrow}
 		      AND rnum &lt;= #{endrow} 
+			
+		
 	</select>
  		
  		
  	<!-- 상세보기 -->
-	<select id="view" resultType="com.site.dto.BoardDTO">
-		select * from yj_notice_board
-		where bid=#{bid}
+	<select id="view" resultType="com.site.dto.AjaxBoardDTO">
+		select * from yj_ajax_board
+		where code=#{code}
 	</select>
  	
  	<!-- 조회수 증가 -->
 	<update id="HitUp">
-		update yj_notice_board 
+		update YJ_AJAX_BOARD
 		set
 		hit=hit+1 
 		where 
-		bid=#{bid}
+		code=#{code}
 	</update>
  	
  	<!-- 해당 게시물의 댓글리스트 -->
- 	<select id="cmtList" resultType="com.site.dto.CommentDTO">
+ 	<select id="cmtList" resultType="com.site.dto.AjaxCommentDTO">
 			select
-				bid,
-				cid,
-				user_id,
+				code,
+				ccode,
+				writer,
 				recontent,
-				cdate,
-				cgroup,
-				step,
-				indent
+				reg_date
 			from
-				yj_bcomment
+				YJ_AJAX_COMMENT
 			where
-				bid=#{bid}
+				code=#{code}
 			ORDER BY
-				CDATE desc
+				reg_date desc
 	</select>
  
- 	<!-- 게시글 DB에 업로드 -->
+ 	<!-- 게시글(원글) DB에 업로드 -->
 	<insert id="add">
-		INSERT INTO yj_notice_board (
-					user_id,
-					bid,
+		INSERT INTO YJ_AJAX_BOARD (
+					code,
+					originNo,
 					title,
-					bcontents,
-					fileName,
-					day,
-					hit,
-					bgroup,
-					bstep,
-					bindent
+					acontent,
+					writer,
+					reg_datetime,
+					hit
 		)	VALUES(
-					 #{user_id},
-		             testboard.nextval,
+		             A_SEQ.NEXTVAL,
+		             NULL,
 		             #{title},
-		             #{bcontents},
-		             #{fileName},
+		             #{acontent},
+					 #{writer},
 		             sysdate,
-		             0,
-		             testboard.currval,
-		             0,
 		             0
 		      ) 
 	</insert>
  
  	<!-- 답글 DB에 업로드 -->
 	<insert id="addReply">
-		INSERT INTO yj_notice_board (
-					user_id,
-					bid,
+		INSERT INTO YJ_AJAX_BOARD (
+					code,
+					originNo,
 					title,
-					bcontents,
-					fileName,
-					day,
-					hit,
-					bgroup,
-					bstep,
-					bindent
+					acontent,
+					writer,
+					reg_datetime,
+					hit
 					
 	) VALUES(
-					 #{user_id},
-		             testboard.nextval,
-		             #{title},
-		             #{bcontents},
-		             #{fileName},
-		             sysdate,
-		             0,
-		             #{bgroup},
-		             #{bstep}+1,
-		             #{bindent}+1
-		             ) 
+		            A_SEQ.NEXTVAL,
+		            #{code},
+		            #{title},
+		            #{acontent},
+					#{writer},
+		            sysdate,
+		            0
+    ) 
 	</insert>
- 
- 	 <!-- replyPlus -->
-	  <update id="addReplyPlus">
-	     update 
-	     		yj_notice_board 
-	     set
-	     		bstep=bstep+1
-	     where 
-	     		bgroup=#{bgroup}
-	     		 	and
-	     		bstep>#{bstep}
-
-	  </update>
  
  	<!-- update -->
 	<update id="edit">
-		     update yj_notice_board
+		     update YJ_AJAX_BOARD
 		     set 
 		     title=#{title},
-		     bcontents=#{bcontents},
-		     filename=#{fileName},
-		     day=sysdate 
-		     where bid=${bid}
+		     acontent=#{acontent},
+		     reg_datetime=sysdate 
+		     where code=${code}
 	</update>
  
  	<!-- delete -->
 	<delete id="delete">
-		delete yj_notice_board where bid=#{bid}
+		delete YJ_AJAX_BOARD where code=#{code}
 	</delete>
  
  
  	<!-- 댓글 db에 업로드 -->
 	<insert id="addCmt">
-		insert into yj_bcomment(
-				bid,
-				cid,
-				user_id,
+		insert into YJ_AJAX_COMMENT(
+				code,
+				ccode,
+				writer,
 				recontent,
-				cdate,
-				cgroup,
-				step,
-				indent
+				reg_date
 			)values(
-				#{bid},
-				CBOARD.nextval,
-				#{user_id},
+				#{code},
+				RE_SEQ.nextval,
+				#{writer},
 				#{recontent},
-				sysdate,
-				CBOARD.Currval,
-				0,
-				0
+				sysdate
 			)		
 	</insert>
  
  	<update id="editCmt">
-		update yj_bcomment
+		update YJ_AJAX_COMMENT
 			set
 			recontent =#{recontent},
-			cdate=sysdate
+			reg_date=sysdate
 			where
-			bid=#{bid}
+			code=#{code}
 			and
-			cid=#{cid}
+			ccode=#{ccode}
 	</update>
  
  	<delete id="deleteCmt">
 			delete
-				yj_bcomment
+				YJ_AJAX_COMMENT
 				where
-				bid =#{bid} 
+				code =#{code} 
 				and
-				cid =#{cid}
+				ccode =#{ccode}
 	</delete>
  
  
- 
+ 	<!-- 총 게시물 건수 조회 -->
+ 	<select id="listCount" resultType="int">
+		select count(*) from YJ_AJAX_BOARD
+	</select>
  
  
  

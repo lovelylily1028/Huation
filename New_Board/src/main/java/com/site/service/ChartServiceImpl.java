@@ -1,9 +1,7 @@
 package com.site.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,6 @@ public class ChartServiceImpl implements ChartService {
 	
 	List<GraphDTO> glist;
 	
-	Map<String, Object> map;
-
 	@Autowired
 	BoardMap boardMapper;
 	
@@ -27,17 +23,13 @@ public class ChartServiceImpl implements ChartService {
 	 * 그래프 리스트 가져오기
 	 */
 	@Override
-	public Map<String, Object> graphList() {
-		
-		map = new HashMap<String,Object>();
+	public List<GraphDTO> graphList() {
 		
 		glist = new ArrayList<GraphDTO>();
 		
 		glist = boardMapper.graphList();
 		
-		map.put("glist", glist);
-		
-		return map;
+		return glist;
 	}
 
 

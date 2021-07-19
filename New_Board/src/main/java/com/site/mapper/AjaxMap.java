@@ -4,35 +4,37 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.site.dto.BoardDTO;
-import com.site.dto.CommentDTO;
+import com.site.dto.AjaxBoardDTO;
+import com.site.dto.AjaxCommentDTO;
 
 @Mapper
 public interface AjaxMap {
 
-	List<BoardDTO> list(int startrow, int endrow, String search, String category);
+	List<AjaxBoardDTO> list(int startrow, int endrow);
 
-	BoardDTO view(String bid);
+	AjaxBoardDTO view(String code);
 
-	void HitUp(String bid);
+	void HitUp(String code);
 
-	List<CommentDTO> cmtList(String bid);
+	List<AjaxCommentDTO> cmtList(String code);
 
-	int add(BoardDTO boardDto);
+	int add(AjaxBoardDTO ajaxDto);
 
-	int addReply(BoardDTO boardDto);
+	int addReply(AjaxBoardDTO ajaxDto);
 
-	void addReplyPlus(BoardDTO boardDto); // step,indent 추가를 위한 mapper
+	void addReplyPlus(AjaxBoardDTO ajaxDto); // step,indent 추가를 위한 mapper
 
-	int edit(BoardDTO boardDto);
+	int edit(AjaxBoardDTO ajaxDto);
 
-	int delete(String bid);
+	int delete(String code);
 
-	int addCmt(CommentDTO commentDto);
+	int addCmt(AjaxCommentDTO commentDto);
 
-	int editCmt(CommentDTO commentDto);
+	int editCmt(AjaxCommentDTO commentDto);
 
-	int deleteCmt(String bid, String cid);
+	int deleteCmt(String code, String ccode);
+	
+	int listCount();
 
 
 	

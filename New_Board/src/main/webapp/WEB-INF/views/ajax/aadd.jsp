@@ -46,14 +46,14 @@
 		/* 답글 작성페이지 준비 */
 		function replyReady(){
 			
-			var bidT = getParameterByName('bid')
+			var codeT = getParameterByName('code')
 			var rmtT = getParameterByName('rmt')
 			
 			$.ajax({
 				url:"doAddView",
 				type:"POST",
 				data:{
-					bid : bidT
+					code : codeT
 				},
 				dataType : "JSON",
 				success : function(data) {
@@ -64,18 +64,14 @@
 						html ="";
 					
 						html +="<form method='post' enctype='multipart/form-data' name='replyForm' id='replyForm'>";
-						html +="<input type='hidden' name='user_id' id='user_id' value='"+login_id+"'>";
-						html +="<input type='hidden' name='bid' value='"+bidT+"'>";
+						html +="<input type='hidden' name='writer' id='writer' value='"+login_id+"'>";
+						html +="<input type='hidden' name='code' value='"+codeT+"'>";
 						html +="<input type='hidden' name='title' id='title' value=''>";
-						html +="<input type='hidden' name='bcontents' id='bcontents' value=''>";
-						html +="<input type='hidden' name='bgroup' id='bgroup' value='"+data.boardDto.bgroup+"'>";
-						html +="<input type='hidden' name='bstep' id='bstep' value='"+data.boardDto.bstep+"'>";
-						html +="<input type='hidden' name='bindent' id='bindent' value='"+data.boardDto.bindent+"'>";
-						html +="<input type='file'   name='file' id='file' style='display: none;' onchange='javascript: document.getElementById('fileTemp').value = this.value'>";
+						html +="<input type='hidden' name='acontent' id='acontent' value=''>";
 						html +="<input type='hidden' name='rmt' id='rmt' value='"+rmtT+"'>";
 						html +="<div class='btn_c'>";
 						html +="<span class='bbtn_bg1'><input type='button' onclick='add(this.form)' value='등록'></span> ";
-						html +="<span class='bbtn_bg2'><a onclick=''>취소</a></span>";
+						html +="<span class='bbtn_bg2'><a onclick='self.close()'>취소</a></span>";
 						html +="</div>";
 						html +="</form>";
 						
@@ -93,14 +89,14 @@
 			/* 새글 작성페이지 준비 */
 			function addReady(){
 				
-				var bidT = getParameterByName('bid')
+				var codeT = getParameterByName('code')
 				var rmtT = getParameterByName('rmt')
 				
 				$.ajax({
 				url:"doAddView",
 				type:"POST",
 				data:{
-					bid : bidT
+					code : codeT
 				},
 				dataType : "JSON",
 				success : function(data) {
@@ -111,14 +107,13 @@
 					
 						html ="";
 						html +="<form method='post' enctype='multipart/form-data' name='addForm' id='addForm'>";
-						html +="<input type='hidden' name='user_id' id='user_id' value='huation'>";
+						html +="<input type='hidden' name='writer' id='writer' value='huation'>";
 						html +="<input type='hidden' name='title' id='title' value=''>";
-						html +="<input type='hidden' name='bcontents' id='bcontents' value=''>";
-						html +="<input type='file'   name='file' id='file' style='display: none;' onchange='javascript: document.getElementById('fileTemp').value = this.value'>";
+						html +="<input type='hidden' name='acontent' id='acontent' value=''>";
 						html +="<input type='hidden' name='rmt' id='rmt' value='"+rmtT+"'>";
 						html +="<div class='btn_c'>";
 						html +="<span class='bbtn_bg1'><input type='button' onclick='add(this.form)' value='등록'></span> ";
-						html +="<span class='bbtn_bg2'><a onclick=''>취소</a></span>";
+						html +="<span class='bbtn_bg2'><a onclick='self.close()'>취소</a></span>";
 						html +="</div>";
 						html +="</form>";
 
@@ -149,7 +144,7 @@
 		 }	
 		
 		$('#title').val ( $('#titleTemp').val())
-		$('#bcontents').val ( $('#contentTemp').val())
+		$('#acontent').val ( $('#contentTemp').val())
 		
 		var rmtT = getParameterByName('rmt')
 		
@@ -159,7 +154,6 @@
 		
 		switch (rmtT){
 		case "add":
-			alert(" add 여기 들어옴");
 			addform =$('#addForm')[0];
 			data = new FormData(addform);
 			break;
@@ -225,13 +219,6 @@
 									</dd>
 									<dt>작성자</dt>
 									<dd id="writerTemp"></dd>
-									<dt>첨부파일</dt>
-									<dd>
-										<label for="file"> <input type="text" id="fileTemp"
-											name="fileTemp" value="파일첨부하기" readonly> <img
-											src="/resources/img/ico_file.gif">
-										</label>
-									</dd>
 									<dd class="write_cont">
 										<textarea rows="15" cols="10" id="contentTemp"
 											placeholder="내용을 입력해주세요."></textarea>

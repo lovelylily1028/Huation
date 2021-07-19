@@ -32,43 +32,42 @@ String id = (String) session.getAttribute("user_id");
 	/* 상세페이지 읽어오기  */
 	function readyBoard() {
 
-		var bidT = getParameterByName('bid');
+		var codeT = getParameterByName('code');
 
 		$.ajax({
 					url : "doView",
 					type : "POST",
 					data : {
-						bid : bidT
+						code : codeT
 					},
 					dataType : "JSON",
 					success : function(data) {
 
 						/* 댓글 리스트 불러오는 함수 */
-						readyCmt(data.boardDto.bid)
+						readyCmt(data.aDto.code)
 
-						document.getElementById("writerTemp").innerHTML = data.boardDto.user_id;
-						document.getElementById("hitTemp").innerHTML = data.boardDto.hit;
-						document.getElementById("titleTemp").innerHTML = data.boardDto.title;
-						document.getElementById("contentTemp").innerHTML = data.boardDto.bcontents;
-						document.getElementById("fileTemp").innerHTML = data.boardDto.fileName;
+						document.getElementById("writerTemp").innerHTML = data.aDto.writer;
+						document.getElementById("hitTemp").innerHTML = data.aDto.hit;
+						document.getElementById("titleTemp").innerHTML = data.aDto.title;
+						document.getElementById("contentTemp").innerHTML = data.aDto.acontent;
 
-						$('#bid').val(data.boardDto.bid);
-						$('#user_id').val(data.login_id);
+						$('#code').val(data.aDto.code);
+						$('#writer').val(data.login_id);
 
 						var login_id = data.login_id;
-						var user_id = data.boardDto.user_id;
+						var user_id = data.aDto.writer;
+						
+						console.log(user_id)
 
 						if (login_id == user_id) {
 							htmlbtn = "";
 
 							htmlbtn += "<form method='post' enctype='multipart/form-data' id='editForm' name='editForm'>";
-							htmlbtn += "<input type='hidden' id='user_id' name='user_id' value='"+data.boardDto.user_id+"'>";
-							htmlbtn += "<input type='hidden' id='bid' name='bid' value='"+data.boardDto.bid+"'>";
-							htmlbtn += "<input type='hidden' id='title' name='title' value='"+data.boardDto.title+"'>";
-							htmlbtn += "<input type='hidden' id='bcontents' name='bcontents' value='"+data.boardDto.bcontents+"'>";
-							htmlbtn += "<input type='hidden' id='fileName' name='fileName' value='"+data.boardDto.fileName+"'>";
+							htmlbtn += "<input type='hidden' id='writer' name='writer' value='"+data.aDto.writer+"'>";
+							htmlbtn += "<input type='hidden' id='code' name='code' value='"+data.aDto.code+"'>";
+							htmlbtn += "<input type='hidden' id='title' name='title' value='"+data.aDto.title+"'>";
+							htmlbtn += "<input type='hidden' id='acontent' name='acontent' value='"+data.aDto.acontents+"'>";
 							htmlbtn += "<input type='hidden' id='rmt' name='rmt' value='edit'>";
-							htmlbtn += "<input type='hidden' id='file' name='file'>";
 
 							htmlbtn += "<input type='hidden' id='updateSubmit' onclick='editCheck()' value='수정완료'>";
 							htmlbtn += "<input type='button' id='updateBtn' value='수정' onclick='editToggle(this.form)'>";
@@ -115,8 +114,7 @@ String id = (String) session.getAttribute("user_id");
 		$('#contentTemp').css('background', 'none');
 
 		document.getElementById("titleTemp").innerHTML = $("#title").val();
-		document.getElementById("contentTemp").innerHTML = $('#bcontents')
-				.val();
+		document.getElementById("contentTemp").innerHTML = $('#acontents').val();
 
 		$('#file').attr('type', 'hidden');
 
@@ -142,7 +140,7 @@ String id = (String) session.getAttribute("user_id");
 		}
 
 		$('#title').val(titleTemp);
-		$('#bcontents').val(contentTemp);
+		$('#acontents').val(contentTemp);
 
 		// 수정 Form을 담아줌			  
 		var form = $('#editForm')[0];
@@ -175,9 +173,9 @@ String id = (String) session.getAttribute("user_id");
 	}
 
 	/* 게시글 삭제 */
-	function del(bidT) {
+	function del(codeT) {
 
-		var bidT = getParameterByName('bid')
+		var codeT = getParameterByName('code')
 		var pageT = getParameterByName('page');
 
 		if (confirm('삭제하시겠습니까?')) {
@@ -185,7 +183,7 @@ String id = (String) session.getAttribute("user_id");
 				url : "del",
 				type : "POST",
 				data : {
-					bid : bidT
+					code : codeT
 				},
 				dataType : "JSON",
 				success : function(data) {
@@ -206,14 +204,14 @@ String id = (String) session.getAttribute("user_id");
 	}
 
 	/* 댓글 리스트 읽어오기 */
-	function readyCmt(bidT) {
+	function readyCmt(codeT) {
 
 		$
 				.ajax({
 					url : "doCmt",
 					type : "POST",
 					data : {
-						bid : bidT
+						code : codeT
 					},
 					dataType : "JSON",
 					success : function(data) {
@@ -228,29 +226,29 @@ String id = (String) session.getAttribute("user_id");
 						} else {
 							for (i = 0; i < data.clist.length; i++) {
 								var login_id = data.login_id;
-								var user_id = data.clist[i].user_id;
+								var user_id = data.clist[i].writer;
 
 								htmlcmt += "<form class='commentBox' method='post' id='cmtEditForm'>";
-								htmlcmt += "<input type='hidden' name='bid' value='"+data.clist[i].bid+"'>";
-								htmlcmt += "<input type='hidden' name='cid' value='"+data.clist[i].cid+"'>";
+								htmlcmt += "<input type='hidden' name='code' value='"+data.clist[i].code+"'>";
+								htmlcmt += "<input type='hidden' name='ccode' value='"+data.clist[i].ccode+"'>";
 								htmlcmt += "<input type='hidden' name='recontent' id='recontent' value='"+data.clist[i].recontent+"'>";
 								htmlcmt += "<input type='hidden' name='crmt' value='edit'>";
-								htmlcmt += "<strong>" + data.clist[i].user_id
+								htmlcmt += "<strong>" + data.clist[i].writer
 										+ "</strong>";
 								htmlcmt += "<span class='date' id='datebox'>"
-										+ data.clist[i].cdate;
+										+ data.clist[i].reg_date;
 								if (login_id == user_id) {
 									htmlcmt += "<input type='hidden' id='commentHidden' onclick='cmtEdit(this.form,"
-											+ data.clist[i].bid
+											+ data.clist[i].code
 											+ ","
 											+ i
 											+ ")' value='수정완료'>";
 									htmlcmt += "<input type='button' id='commentToggle' value='수정' onclick='cmtEditToggle(this.form,"
 											+ i + ")'>";
 									htmlcmt += "<input type='button' value='삭제' onclick='cmtDel("
-											+ data.clist[i].bid
+											+ data.clist[i].code
 											+ ","
-											+ data.clist[i].cid + ")'>";
+											+ data.clist[i].ccode + ")'>";
 								}
 								htmlcmt += "</span>";
 								htmlcmt += "<p class='reply_cont' id="+i+" contenteditable>"
@@ -280,7 +278,7 @@ String id = (String) session.getAttribute("user_id");
 		}
 
 		var form = $('#cmtAddForm').serialize();
-		var bidT = $(f.bid).val()
+		var codeT = $(f.code).val()
 
 		$.ajax({
 			url : "doAddCmt",
@@ -289,7 +287,8 @@ String id = (String) session.getAttribute("user_id");
 			dataType : "JSON",
 			success : function(data) {
 				if (data.result == 'true') {
-					readyCmt(bidT)
+					readyCmt(codeT)
+					$(f.recontent).val('');
 				}
 			},
 			error : function() {
@@ -323,7 +322,7 @@ String id = (String) session.getAttribute("user_id");
 	}
 
 	/* 댓글 수정 */
-	function cmtEdit(f, bidT, num) {
+	function cmtEdit(f, codeT, num) {
 
 		var recontentTemp = document.getElementById(num).innerText
 
@@ -343,7 +342,7 @@ String id = (String) session.getAttribute("user_id");
 			dataType : "JSON",
 			success : function(data) {
 				if (data.result == 'true') {
-					readyCmt(bidT)
+					readyCmt(codeT)
 				}
 			},
 			error : function() {
@@ -354,20 +353,20 @@ String id = (String) session.getAttribute("user_id");
 	}
 
 	/* 댓글 삭제 */
-	function cmtDel(bidT, cidT) {
+	function cmtDel(codeT, ccodeT) {
 		if (confirm('댓글을 삭제하시겠습니가?')) {
 
 			$.ajax({
 				url : "delCmt",
 				type : "POST",
 				data : {
-					bid : bidT,
-					cid : cidT
+					code : codeT,
+					ccode : ccodeT
 				},
 				dataType : "JSON",
 				success : function(data) {
 					if (data.result == "true") {
-						readyCmt(bidT)
+						readyCmt(codeT)
 					}
 				},
 				error : function() {
@@ -388,9 +387,9 @@ String id = (String) session.getAttribute("user_id");
 	/* 답글 작성페이지 불러오기 */
 	function add_view(){
 			
-		var bidT = getParameterByName('bid');
+		var codeT = getParameterByName('code');
 		var pageT = getParameterByName('page');
-		 window.location.replace("/aAdd?rmt=reply&bid="+bidT+"&page="+pageT);
+		 window.location.replace("/aAdd?rmt=reply&code="+codeT+"&page="+pageT);
 			
 	}
 		
@@ -418,14 +417,10 @@ String id = (String) session.getAttribute("user_id");
 									<dd class="writer" id="writerTemp"></dd>
 									<dt>작성일</dt>
 									<dd>
-										<%-- ${map.boardDto.day } --%>
+										<%-- ${map.aDto.day } --%>
 									</dd>
 									<dt>조회수</dt>
 									<dd id="hitTemp"></dd>
-								</dl>
-								<dl class="file_view">
-									<dt>첨부파일</dt>
-									<dd id="fileTemp"></dd>
 								</dl>
 								<div class="view_cont" id="contentTemp"></div>
 								<%-- 게시물 수정/삭제 버튼 --%>
@@ -454,13 +449,13 @@ String id = (String) session.getAttribute("user_id");
 										<div class="comment_inp">
 											<form method="post" id="cmtAddForm">
 
-												<input type="hidden" name="user_id" id="user_id" value="">
-												<input type="hidden" name="bid" id="bid" value=""> <input
-													type="hidden" name="crmt" value="add"> <strong>댓글쓰기</strong>
-												<textarea rows="0" cols="0" maxlength="2000" id="recontent"
-													name="recontent" placeholder="댓글을 입력하세요."></textarea>
-												<span class="bbtn_input"> <input type="button"
-													onclick="cmtAdd(this.form)" value="등록"></span>
+												<input type="hidden" name="writer" id="writer" value="">
+												<input type="hidden" name="code" id="code" value=""> 
+												<input type="hidden" name="crmt" value="add">
+												<strong>댓글쓰기</strong>
+												<textarea rows="0" cols="0" maxlength="2000" id="recontent"	name="recontent" placeholder="댓글을 입력하세요."></textarea>
+												<span class="bbtn_input">
+												<input type="button" onclick="cmtAdd(this.form)" value="등록"></span>
 												<p>최대 2,000자까지 입력가능합니다.</p>
 											</form>
 										</div>

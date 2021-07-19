@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.site.dto.AjaxBoardDTO;
+import com.site.dto.AjaxCommentDTO;
 import com.site.dto.BoardDTO;
 import com.site.dto.CommentDTO;
 import com.site.service.AjaxService;
@@ -48,10 +50,9 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping("/doList")
-	public Map<String,Object> doAjax(HttpSession session, Model model, @RequestParam @Nullable String category,
-			@RequestParam @Nullable String page, @RequestParam @Nullable String search) {
+	public Map<String,Object> doAjax(HttpSession session, Model model, @RequestParam @Nullable String page) {
 
-		map = Service.list(page, category, search);
+		map = Service.list(page);
 
 		return map;
 	}
@@ -60,7 +61,7 @@ public class AjaxController {
 	 * 상세페이지 호출
 	 */
 	@RequestMapping("/aview")
-	public String aview(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
+	public String aview(@RequestParam @Nullable String code, @RequestParam @Nullable String page,
 			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model) {
 		
 		return "/ajax/aview";
@@ -69,35 +70,38 @@ public class AjaxController {
 	/*
 	 * 상세페이지 호출후 데이터 불러오기
 	 */
-	@ResponseBody
-	@RequestMapping("/doView")
-	public Map<String,Object> doView(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
-			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model,HttpServletRequest request, HttpServletResponse response) {
-		
-		map = new HashMap<String,Object>();
-		
-		HttpSession session = request.getSession();
-		String login_id = (String)session.getAttribute("user_id");
-		
-		map = Service.view(bid, page, category, search);
-		map.put("login_id", login_id);
-
-		return map;
-
-	}
+	
+	 @ResponseBody
+	 @RequestMapping("/doView") 
+	 public Map<String,Object> doView(@RequestParam @Nullable String code, @RequestParam @Nullable String	 page,
+	   @RequestParam @Nullable String category, @RequestParam @Nullable String  search, 
+	   Model model,HttpServletRequest request, HttpServletResponse response)  {
+	  
+	  map = new HashMap<String,Object>();
+	  
+	  HttpSession session = request.getSession(); 
+	  String login_id = (String)session.getAttribute("user_id");
+	  
+	  map = Service.view(code, page, category, search);
+	  map.put("login_id", login_id);
+	  
+	  return map;
+	  
+	  }
+	 
 
 	/*
 	 *  수정된 값 ,db 전달
 	 */
 	@ResponseBody
 	@RequestMapping(value ="/doEdit", method = RequestMethod.POST)
-	public  Map<String,Object> doEdit(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
+	public  Map<String,Object> doEdit(AjaxBoardDTO ajaxboardDto, Model model, String rmt,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
 			@RequestParam @Nullable String category) throws UnsupportedEncodingException {
 		
 		map = new HashMap<String,Object>();
 		
-		i = Service.add(boardDto, file, rmt);
+		i = Service.add(ajaxboardDto, rmt);
 		
 		if(i == 1) {
 			map.put("result","true");
@@ -113,11 +117,11 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping("/del")
-	public Map<String,Object> delete(@RequestParam String bid, @RequestParam @Nullable String page,
+	public Map<String,Object> delete(@RequestParam String code, @RequestParam @Nullable String page,
 			@RequestParam @Nullable String search, @RequestParam @Nullable String category, Model model)
 			throws UnsupportedEncodingException {
 
-		i = Service.delete(bid);
+		i = Service.delete(code);
 		
 		if(i == 1) {
 			map.put("result","true");
@@ -134,7 +138,7 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping("/doCmt")
-	public Map<String,Object> doCmt(@RequestParam @Nullable String bid, @RequestParam @Nullable String page,
+	public Map<String,Object> doCmt(@RequestParam @Nullable String code, @RequestParam @Nullable String page,
 			@RequestParam @Nullable String category, @RequestParam @Nullable String search, Model model,HttpServletRequest request) {
 		
 		map = new HashMap<String,Object>();
@@ -143,7 +147,7 @@ public class AjaxController {
 		String login_id = (String)session.getAttribute("user_id");
 		map.put("login_id", login_id);
 		
-		map = Service.cmtList(bid);
+		map = Service.cmtList(code);
 		
 		return map;
 		
@@ -154,10 +158,10 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/delCmt", method = RequestMethod.POST)
-	public Map<String, Object> cmtDelete(@RequestParam String bid, @RequestParam String cid, Model model)
+	public Map<String, Object> cmtDelete(@RequestParam String code, @RequestParam String ccode, Model model)
 			throws UnsupportedEncodingException {
 		
-		i = Service.deleteCmt(bid, cid);
+		i = Service.deleteCmt(code, ccode);
 		
 		if (i == 1) {
 			map.put("result", "true");
@@ -173,10 +177,10 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/doAddCmt", method = RequestMethod.POST)
-	public Map<String, Object> cmtAdd(CommentDTO commentDto, Model model, @RequestParam @Nullable String bid,
+	public Map<String, Object> cmtAdd(AjaxCommentDTO ajaxcommentDto, Model model, @RequestParam @Nullable String code,
 			@RequestParam @Nullable String cid, String crmt) throws UnsupportedEncodingException {
 		
-		i = Service.addCmt(commentDto, crmt);
+		i = Service.addCmt(ajaxcommentDto, crmt);
 		
 		if (i == 1) {
 			map.put("result", "true");
@@ -188,26 +192,10 @@ public class AjaxController {
 	}
 	
 	
-	
-	
+
 	/*
-	 * 새글 및 답글 작성페이지 내용 호출
+	 * 작성 페이지 호출
 	 */
-	@ResponseBody
-	@RequestMapping("/doAddView")
-	public Map<String,Object> doAddview(HttpSession session, Model model, @RequestParam @Nullable String bid,
-			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
-			@RequestParam @Nullable String category,HttpServletRequest request) {
-		
-		session = request.getSession();
-		String login_id = (String)session.getAttribute("user_id");
-		map.put("login_id", login_id);
-		
-		map = Service.edit_view(bid);
-		
-		return map;
-	}
-	
 	@RequestMapping("/aAdd")
 	public String aAdd(HttpSession session, Model model, @RequestParam @Nullable String bid,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
@@ -215,6 +203,25 @@ public class AjaxController {
 		
 		return "/ajax/aadd";
 	}
+	
+	/*
+	 * 새글 및 답글 작성페이지 내용 호출
+	 */
+	@ResponseBody
+	@RequestMapping("/doAddView")
+	public Map<String,Object> doAddview(HttpSession session, Model model, @RequestParam @Nullable String code,
+			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
+			@RequestParam @Nullable String category,HttpServletRequest request) {
+		
+		session = request.getSession();
+		String login_id = (String)session.getAttribute("user_id");
+		map.put("login_id", login_id);
+		
+		map = Service.edit_view(code);
+		
+		return map;
+	}
+	
 
 	
 	/**
@@ -222,11 +229,11 @@ public class AjaxController {
 	 */
 	@ResponseBody
 	@RequestMapping("/doAdd")
-	public Map<String,Object> ajaxadd(BoardDTO boardDto, MultipartFile file, Model model, String rmt,
+	public Map<String,Object> ajaxadd(AjaxBoardDTO ajaxDto, MultipartFile file, Model model, String rmt,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String search,
 			@RequestParam @Nullable String category) throws UnsupportedEncodingException {
 		
-		i = Service.add(boardDto, file, rmt);
+		i = Service.add(ajaxDto, rmt);
 		
 		if (i == 1) {
 			map.put("result", "true");

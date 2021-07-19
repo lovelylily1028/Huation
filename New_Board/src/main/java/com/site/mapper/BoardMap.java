@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.site.dto.BoardDTO;
-import com.site.dto.CommentDTO;
 import com.site.dto.GraphDTO;
 
 @Mapper
