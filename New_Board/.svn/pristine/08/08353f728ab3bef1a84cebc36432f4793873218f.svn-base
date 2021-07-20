@@ -12,11 +12,10 @@
 			COUNT(*) as bcount 
 		FROM
 			 yj_notice_board
-		<![CDATA[
-			WHERE day >= #{start} and day <= #{end}
-		 ]]>
-			GROUP BY TO_CHAR(day, 'YYYY-MM-DD')
-			ORDER BY wrtday
+		WHERE
+			 day >= '2021-06-28'
+		GROUP BY TO_CHAR(day, 'YYYY-MM-DD')
+		ORDER BY wrtday
 
 	</select>
 	

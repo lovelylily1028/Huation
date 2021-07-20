@@ -9,7 +9,7 @@ import com.site.dto.GraphDTO;
 @Mapper
 public interface ChartMap {
 
-	List<GraphDTO> barList(String start,String end);
+	List<GraphDTO> barList();
 
 	List<GraphDTO> lineList();
 	

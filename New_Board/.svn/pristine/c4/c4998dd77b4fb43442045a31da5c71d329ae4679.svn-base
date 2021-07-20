@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+ <mapper namespace="com.site.mapper.AjaxMap">
+	
+	<!-- 리스트 가져오기 -->
+	<select id="list" resultType="com.site.dto.AjaxBoardDTO">
+			
+			SELECT * FROM (
+			SELECT
+			 rownum rnum, a.* 
+			FROM(
+			SELECT 
+					code,
+					originno,
+					title,
+					acontent,
+					writer,
+					reg_datetime,
+					hit,
+					level 
+			FROM YJ_AJAX_BOARD
+				START WITH originno is null
+				CONNECT BY PRIOR code = originno
+				
+				ORDER BY GROUPORD DESC
+			)a) 
+			WHERE rnum >= #{startrow}
+		      AND rnum &lt;= #{endrow} 
+			
+		
+	</select>
+ 		
+ 		
+ 	<!-- 상세보기 -->
+	<select id="view" resultType="com.site.dto.AjaxBoardDTO">
+		select * from yj_ajax_board
+		where code=#{code}
+	</select>
+ 	
+ 	<!-- 조회수 증가 -->
+	<update id="HitUp">
+		update YJ_AJAX_BOARD
+		set
+		hit=hit+1 
+		where 
+		code=#{code}
+	</update>
+ 	
+ 	<!-- 해당 게시물의 댓글리스트 -->
+ 	<select id="cmtList" resultType="com.site.dto.AjaxCommentDTO">
+			select
+				code,
+				ccode,
+				writer,
+				recontent,
+				reg_date
+			from
+				YJ_AJAX_COMMENT
+			where
+				code=#{code}
+			ORDER BY
+				reg_date desc
+	</select>
+ 
+ 	<!-- 게시글(원글) DB에 업로드 -->
+	<insert id="add">
+		INSERT INTO YJ_AJAX_BOARD (
+					code,
+					originNo,
+					title,
+					acontent,
+					writer,
+					reg_datetime,
+					hit,
+					groupord
+		)	VALUES(
+		             A_SEQ.NEXTVAL,
+		             NULL,
+		             #{title},
+		             #{acontent},
+					 #{writer},
+		             sysdate,
+		             0,
+		             A_SEQ.CURRVAL
+		      ) 
+	</insert>
+ 
+ 	<!-- 답글 DB에 업로드 -->
+	<insert id="addReply">
+		INSERT INTO YJ_AJAX_BOARD (
+					code,
+					originNo,
+					title,
+					acontent,
+					writer,
+					reg_datetime,
+					hit,
+					groupord
+					
+	) VALUES(
+		            A_SEQ.NEXTVAL,
+		            #{code},
+		            #{title},
+		            #{acontent},
+					#{writer},
+		            sysdate,
+		            0,
+		            #{code}
+    ) 
+	</insert>
+ 
+ 	<!-- update -->
+	<update id="edit">
+		     update YJ_AJAX_BOARD
+		     set 
+		     title=#{title},
+		     acontent=#{acontent},
+		     reg_datetime=sysdate 
+		     where code=${code}
+	</update>
+ 
+ 	<!-- delete -->
+	<delete id="delete">
+		delete YJ_AJAX_BOARD where code=#{code}
+	</delete>
+ 
+ 
+ 	<!-- 댓글 db에 업로드 -->
+	<insert id="addCmt">
+		insert into YJ_AJAX_COMMENT(
+				code,
+				ccode,
+				writer,
+				recontent,
+				reg_date
+			)values(
+				#{code},
+				RE_SEQ.nextval,
+				#{writer},
+				#{recontent},
+				sysdate
+			)		
+	</insert>
+ 
+ 	<update id="editCmt">
+		update YJ_AJAX_COMMENT
+			set
+			recontent =#{recontent},
+			reg_date=sysdate
+			where
+			code=#{code}
+			and
+			ccode=#{ccode}
+	</update>
+ 
+ 	<delete id="deleteCmt">
+			delete
+				YJ_AJAX_COMMENT
+				where
+				code =#{code} 
+				and
+				ccode =#{ccode}
+	</delete>
+ 
+ 
+ 	<!-- 총 게시물 건수 조회 -->
+ 	<select id="listCount" resultType="int">
+		select count(*) from YJ_AJAX_BOARD
+	</select>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </mapper>

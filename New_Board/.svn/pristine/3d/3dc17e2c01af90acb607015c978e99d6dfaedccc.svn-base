@@ -6,11 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.site.dto.GraphDTO;
@@ -43,9 +41,9 @@ public class ChartController {
 	 */
 	@ResponseBody
 	@RequestMapping("/dobar")
-	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end) {
+	public List<GraphDTO> dobar(HttpSession session, Model model) {
 		 
-		return chartService.barList(start,end);
+		return chartService.barList();
 	}
 	
 	/*
