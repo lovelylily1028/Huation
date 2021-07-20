@@ -1,12 +1,16 @@
-package com.site.service;
+package com.site.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.site.dto.GraphDTO;
 
-public interface ChartService {
+@Mapper
+public interface ChartMap {
 
 	List<GraphDTO> barList();
 
 	List<GraphDTO> lineList();
+	
 }

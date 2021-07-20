@@ -24,32 +24,16 @@ public class AjaxBoardDTO {
 	
 	/*
 	 * 계층형 게시판을 위한 추가 필드
-	 * originNo,level 
+	 * originNo,level,groupOrd 
 	 */
-	/* 원글 번호 : 답변을 단 원래 글(부모글) 본글의 경우 본인의 code를 갖는다.*/
+	
+	/* 원글 번호 : 답변을 단 본글(부모글)의 번호, 단, 원글의 경우 null을 넣는다.*/
 	private int originNo;
 	/* 들여쓰기를 위한 레벨 */
 	private String level;
-	
-//	/* 원글(답글포함)에 대한 순서 */
-//	private int groupOrd;
-//	/* 답글 계층 */
-//	private int groupLayer;
-//	
-	
-	
-	// 답글 부분은 오라클 계층 쿼리를 사용하여 구현하기
-	
-	/*
-	 * private String writer;
-	 * private String bnum; 
-	 * private String title;
-	 * private String bcontents;
-	 * private String FilName; 
-	 * private String wtday;
-	 * private String hit;
-	 */
-	
+	/* 원글(답글포함)에 대한 순서 */
+	private int groupOrd;
+
 	
 	
 }

@@ -196,24 +196,6 @@
 
 
 
-	<!-- 그래프 리스트 -->
-	<select id="graphList" resultType="com.site.dto.GraphDTO">
-		
-		SELECT
-			TO_CHAR(day, 'YYYY-MM-DD') as wrtday,
-			COUNT(*) as bcount 
-		FROM
-			 yj_notice_board
-		WHERE
-			 day >= '2021-06-28'
-		GROUP BY TO_CHAR(day, 'YYYY-MM-DD')
-		ORDER BY wrtday
-
-	</select>
-
-
-
-
 
 
 

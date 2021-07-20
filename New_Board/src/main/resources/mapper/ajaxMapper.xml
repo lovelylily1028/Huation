@@ -23,6 +23,8 @@
 			FROM YJ_AJAX_BOARD
 				START WITH originno is null
 				CONNECT BY PRIOR code = originno
+				
+				ORDER BY GROUPORD DESC
 			)a) 
 			WHERE rnum >= #{startrow}
 		      AND rnum &lt;= #{endrow} 
@@ -71,7 +73,8 @@
 					acontent,
 					writer,
 					reg_datetime,
-					hit
+					hit,
+					groupord
 		)	VALUES(
 		             A_SEQ.NEXTVAL,
 		             NULL,
@@ -79,7 +82,8 @@
 		             #{acontent},
 					 #{writer},
 		             sysdate,
-		             0
+		             0,
+		             A_SEQ.CURRVAL
 		      ) 
 	</insert>
  
@@ -92,7 +96,8 @@
 					acontent,
 					writer,
 					reg_datetime,
-					hit
+					hit,
+					groupord
 					
 	) VALUES(
 		            A_SEQ.NEXTVAL,
@@ -101,7 +106,8 @@
 		            #{acontent},
 					#{writer},
 		            sysdate,
-		            0
+		            0,
+		            #{code}
     ) 
 	</insert>
  

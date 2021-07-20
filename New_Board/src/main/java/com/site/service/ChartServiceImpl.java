@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.site.dto.GraphDTO;
-import com.site.mapper.BoardMap;
+import com.site.mapper.ChartMap;
 
 @Service
 public class ChartServiceImpl implements ChartService {
@@ -17,20 +17,34 @@ public class ChartServiceImpl implements ChartService {
 	List<GraphDTO> glist;
 	
 	@Autowired
-	BoardMap boardMapper;
+	ChartMap chartMapper;
 	
 	/*
-	 * 그래프 리스트 가져오기
+	 * 일반게시판 막대그래프 리스트 가져오기
 	 */
 	@Override
-	public List<GraphDTO> graphList() {
+	public List<GraphDTO> barList(){
 		
 		glist = new ArrayList<GraphDTO>();
 		
-		glist = boardMapper.graphList();
+		glist = chartMapper.barList();
 		
 		return glist;
 	}
+	
+	/*
+	 * AJAX 게시판 선그래프 리스트 가져오기
+	 */
+	@Override
+	public List<GraphDTO> lineList(){
+		
+		glist = new ArrayList<GraphDTO>();
+		
+		glist = chartMapper.lineList();
+		
+		return glist;
+	}
+	
 
 
 	

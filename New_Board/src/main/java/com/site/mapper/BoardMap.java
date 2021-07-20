@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.site.dto.BoardDTO;
-import com.site.dto.GraphDTO;
 
 @Mapper
 public interface BoardMap {
@@ -35,7 +34,7 @@ public interface BoardMap {
 
 	BoardDTO fileDownInfo(String bid);
 
-	List<GraphDTO> graphList();
+	
 
 
 	

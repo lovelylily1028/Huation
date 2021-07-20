@@ -30,20 +30,30 @@ public class ChartController {
 	/*
 	 * 막대 그래프 페이지 연결
 	 */
-	@RequestMapping("/graph")
+	@RequestMapping("/chart")
 	public String graphBoardAccess(HttpSession session, Model model) {
 		
-		return "graph/graph";
+		return "chart/chart";
 	}
 
 	/*
-	 * AJAX  연결하기
+	 * 일반게시판 일일 게시물 등록수 조회 (막대그래프)
 	 */
 	@ResponseBody
-	@RequestMapping("/dograph")
-	public List<GraphDTO> dograph(HttpSession session, Model model) {
+	@RequestMapping("/dobar")
+	public List<GraphDTO> dobar(HttpSession session, Model model) {
 		 
-		return chartService.graphList();
+		return chartService.barList();
+	}
+	
+	/*
+	 * AJAX 게시판 일일 게시물 등록수 조회 (선그래프)
+	 */
+	@ResponseBody
+	@RequestMapping("/doline")
+	public List<GraphDTO> doline(HttpSession session, Model model) {
+		
+		return chartService.lineList();
 	}
 	
 	

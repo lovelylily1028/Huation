@@ -50,14 +50,6 @@ public class BoardController {
 	}
 
 	/*
-	 * 채팅 페이지
-	 */
-	@RequestMapping("/chatt")
-	public String chattBoardAccess(HttpSession session, Model model) {
-		return "chatt/chatting";
-	}
-
-	/*
 	 * 엑셀 업로드 페이지
 	 */
 	@RequestMapping("/board/excel")
