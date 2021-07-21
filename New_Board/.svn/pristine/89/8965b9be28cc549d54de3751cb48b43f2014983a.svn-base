@@ -42,7 +42,7 @@ public class ChatController {
 	@RequestMapping("/room")
 	public ModelAndView room() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("chat/room");
+		mv.setViewName("room");
 		return mv;
 	}
 	
@@ -86,7 +86,7 @@ public class ChatController {
 		if(new_list != null && new_list.size() > 0) {
 			mv.addObject("roomName", params.get("roomName"));
 			mv.addObject("roomNumber", params.get("roomNumber"));
-			mv.setViewName("chat/chat");
+			mv.setViewName("chat");
 		}else {
 			mv.setViewName("room");
 		}

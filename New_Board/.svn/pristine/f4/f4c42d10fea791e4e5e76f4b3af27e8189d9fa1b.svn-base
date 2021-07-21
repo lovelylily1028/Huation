@@ -96,10 +96,12 @@
 						<tr>
 							<td class="num">${dto.bid }</td>
 							<td class="tit">
+						     <div class="box">
 						     	<c:forEach begin="1" end="${dto.bindent }" >
 									└▶
         						</c:forEach>
-		                        <a href="/view?category=${map.category }&search=${map.search }&page=${map.page}&bid=${dto.bid }">${dto.title }</a> &nbsp;
+		                        <a href="/view?category=${map.category }&search=${map.search }&page=${map.page}&bid=${dto.bid }">${dto.title }</a>
+		                     </div>
 							</td>
 							<td class="writer">
 								${dto.user_id }
