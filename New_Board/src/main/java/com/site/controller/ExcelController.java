@@ -43,8 +43,12 @@ public class ExcelController {
 	Map<String, Object> map = new HashMap<String, Object>();
 
 
-	/*
-	 * 다운로드 엑셀파일 생성 
+	/**
+	 * 다운로드 엑셀파일 생성
+	 * 
+	 * @param page : 현재 리스트 페이지
+	 * @param category : 검색된 category 값
+	 * @param search : 검색된 search 값
 	 */
 	@GetMapping("/downExcel")
 	public void downExcelForm(@RequestParam @Nullable String page, 
@@ -73,7 +77,9 @@ public class ExcelController {
 	}
 
 
-	//엑셀 업로드
+	/**
+	 * 엑셀 업로드
+	 */
 	@RequestMapping("/excelUp")
 	public String excelUp(MultipartFile file, Model model) throws IOException{
 			
@@ -83,15 +89,9 @@ public class ExcelController {
 		return "redirect:/NewList";
 	}
 	
-	
-	/*
-	 * 엑셀파일 화면 출력 코드
+	/**
+	 * 업로드된 엑셀파일 읽기
 	 */
-	@RequestMapping("/excel")
-	public String main() { // 1
-		return "excel";
-	}
-
 	@RequestMapping("/excel/read")
 	public String readExcel(@RequestParam("file") MultipartFile file, Model model) throws IOException { // 2
 
@@ -132,4 +132,13 @@ public class ExcelController {
 
 	}
 
+	/**
+	 * 업로드된 엑셀파일을 화면에 출력
+	 */
+	@RequestMapping("/excel")
+	public String main() { // 1
+		return "excel";
+	}
+
+	
 }//

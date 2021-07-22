@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoomDTO {
 
-	/*
-	 * 방의 정보를 담아둘 ROOM객체 생성
-	 */
+	/* 채팅방 번호 */
 	public int roomNumber;
+	/* 채팅방 제목 */
 	public String roomName;
 	
 	@Override

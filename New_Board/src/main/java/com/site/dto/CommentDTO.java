@@ -9,14 +9,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class CommentDTO {
-
-	private String bid; //BoardDTO
-	private String cid; // 댓글 id;
-	private String user_id; // 댓글 작성자
-	private String recontent; // 댓글 내용
-	private String cdate; // 작성일
 	
-	// 덧글 관련
+	/* 댓글 작성 게시물 번호*/
+	private String bid;
+	/* 댓글 번호 */
+	private String cid; 
+	/* 작성자 */
+	private String user_id; 
+	/* 댓글 내용 */
+	private String recontent;
+	/* 작성일 */
+	private String cdate;
+	
+	
+	/*
+	 * 대댓글을 위한 추가 필드
+	 * cgroup,step,indent
+	 */
 	private int cgroup; 
 	private int step;
 	private int indent;

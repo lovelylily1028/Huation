@@ -21,36 +21,41 @@ import com.site.service.UserService;
 @Controller
 public class UserController {
 
-	
 	@Autowired
 	UserService userService;
 	UserDTO userDto;
-	
+
 	int result;
 
-	
-	/*
-	 * 아이디 중복 체크 
+	/**
+	 * 아이디 중복 체크
+	 * 
+	 * @param user_id 중복체크를 요청한 ID
+	 * @param model
+	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/joinIdCheck")
-	public Map<String,Object> joinIdCheck(@RequestParam @Nullable String user_id,Model model) {
-	
-		Map<String,Object> map= new HashMap<String, Object>();
-		
+	public Map<String, Object> joinIdCheck(@RequestParam @Nullable String user_id, Model model) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
 		result = 0;
-		
+
 		result = userService.joinIdCheck(user_id);
-		
+
 		map.put("result", result);
-		
+
 		return map;
 	}
-	
-	
-	
-	/*
+
+	/**
 	 * 회원가입 신청
+	 * 
+	 * @param session
+	 * @param userDto
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/user/joinCheck")
 	public String joinAccess(HttpSession session, UserDTO userDto, Model model) {
@@ -64,11 +69,8 @@ public class UserController {
 		}
 
 		model.addAttribute("location", "/");
-		
+
 		return "util/message";
 	}
-
-
-	
 
 }

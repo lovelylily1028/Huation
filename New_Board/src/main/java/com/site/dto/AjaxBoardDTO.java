@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class AjaxBoardDTO {
 
 	/* 글 번호 */
-	private int code;
+	private int code; 
 	/* 글 제목 */
 	private String title;
 	/* 글 내용 */
 	private String acontent;
 	/* 글 작성자 */
-	private String writer;
+	private String writer; 
 	/* 등록 시간 */
 	private String reg_datetime;
 	/* 조회수 */

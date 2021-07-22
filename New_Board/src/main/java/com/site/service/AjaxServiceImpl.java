@@ -59,7 +59,7 @@ public class AjaxServiceImpl implements AjaxService {
 
 	
 	  @Override 
-	  public Map<String, Object> view(String code, String page, String  category, String search) {
+	  public Map<String, Object> view(String code, String page) {
 	  
 	  // ajax의 경우 새로고침시 리스트 페이지로 돌아가기에 쿠키부분 생략 (조회수 증가)
 		 
@@ -70,10 +70,7 @@ public class AjaxServiceImpl implements AjaxService {
 	  aDTO = mapper.view(code); 
 	  map.put("aDto", aDTO);
 	  
-	  map.put("category", category);
-	  map.put("search", search);
-	  map.put("page",
-	  page);
+	  map.put("page", page);
 	  
 	  return map; 
 	  

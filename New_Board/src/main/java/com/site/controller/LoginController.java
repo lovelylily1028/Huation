@@ -14,23 +14,27 @@ import com.site.service.UserService;
 @Controller
 public class LoginController {
 
-	
 	@Autowired
 	UserService userService;
 
 	UserDTO userDto;
-	
-	
-	/*
+
+	/**
 	 * 로그인 페이지
 	 */
 	@RequestMapping("/login")
 	public String login(HttpSession session, Model model) {
 		return "user/loginPage";
 	}
-	
-	/*
+
+	/**
 	 * 로그인 확인
+	 * 
+	 * @param request
+	 * @param user_id 클라이언트가 입력한 아이디
+	 * @param user_pw 클라이언트가 입력한 비밀번호
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/loginCheck")
 	public String loginAccess(HttpServletRequest request, String user_id, String user_pw, Model model) {
@@ -41,8 +45,9 @@ public class LoginController {
 		if (userDto != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user_id", userDto.getUser_id());
-			
-			model.addAttribute("msg",userDto.getUser_name()+"님 환영합니다.");
+			session.setAttribute("user_name", userDto.getUser_name());
+
+			model.addAttribute("msg", userDto.getUser_name() + "님 환영합니다.");
 			model.addAttribute("location", "/list");
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
@@ -52,9 +57,10 @@ public class LoginController {
 		return "util/message";
 	}
 
-
-	/*
+	/**
 	 * 로그아웃
+	 * 
+	 * @return
 	 */
 	@RequestMapping("/logout")
 	public String logoutAccess(HttpSession session, Model model) {
@@ -63,5 +69,5 @@ public class LoginController {
 		model.addAttribute("location", "/");
 		return "util/message";
 	}
-	
+
 }

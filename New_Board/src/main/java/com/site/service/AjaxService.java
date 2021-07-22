@@ -9,7 +9,7 @@ public interface AjaxService {
 
 	Map<String, Object> list(String page);
 
-	Map<String, Object> view(String code, String page, String category, String search);
+	Map<String, Object> view(String code, String page);
 
 	Map<String, Object> edit_view(String code);
 
