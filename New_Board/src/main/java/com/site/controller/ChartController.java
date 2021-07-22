@@ -29,8 +29,13 @@ public class ChartController {
 	ChartService chartService;
 
 	
-	/*
-	 * 막대 그래프 페이지 연결
+	
+	/**
+	 * 차트 페이지
+	 * 
+	 * @param session
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/chart")
 	public String graphBoardAccess(HttpSession session, Model model) {
@@ -38,8 +43,12 @@ public class ChartController {
 		return "chart/chart";
 	}
 
-	/*
-	 * 일반게시판 일일 게시물 등록수 조회 (막대그래프)
+	/**
+	 * 일반게시판 일일 게시물 등록수
+	 *
+	 * @param start 기간검색 시작일자
+	 * @param end 기간검색 종료일자
+	 * @return List<GraphDTO>
 	 */
 	@ResponseBody
 	@RequestMapping("/dobar")
@@ -48,8 +57,12 @@ public class ChartController {
 		return chartService.barList(start,end);
 	}
 	
-	/*
-	 * AJAX 게시판 일일 게시물 등록수 조회 (선그래프)
+	/**
+	 * AJAX게시판 일일 게시물 등록수
+	 *
+	 * @param start 기간검색 시작일자
+	 * @param end 기간검색 종료일자
+	 * @return List<GraphDTO>
 	 */
 	@ResponseBody
 	@RequestMapping("/doline")

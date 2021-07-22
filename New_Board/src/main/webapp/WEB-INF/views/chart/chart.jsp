@@ -37,6 +37,7 @@
 		
 		/* 만들어진 데이터 차트에 뿌리기 */
 		function makeChart(ctx,type,labels, data, label) {
+			
 			var myChart = new Chart(ctx, {
 			    type: type,
 			    data: {
@@ -80,6 +81,10 @@
 		/*일반게시판 일별 등록수*/
 		function readyChart(startT,endT,sliceT){
 			
+			$('#canvasArea').remove($('myChartbar'))
+			$('#canvasArea').html("<canvas id='myChartbar'></canvas>")
+			
+			
 			var startT = $('#start').val()
 			var endT = $('#end').val()
 
@@ -103,6 +108,7 @@
 						myData.push(item.bcount);
 					});
 
+					
 					if(sliceT == "all"){
 						var newLabels = labels
 						var newMyData = myData
@@ -127,6 +133,10 @@
 		/*AJAX 게시판 일별 등록수 */
 		function readyAjaxChart(startT,endT,sliceT){
 			
+			$('#canvasArea').remove($('myChartline'))
+			$('#canvasArea').html("<canvas id='myChartline'></canvas>")
+			
+			
 			var startT = $('#start').val()
 			var endT = $('#end').val()
 			
@@ -141,6 +151,7 @@
 
 					// JSON 객체 배열 데이터를 Javascript 배열로 변환
 					console.log(data);
+					
 					var labels = [];
 					var myData = [];
 					data.map(function(item) {
@@ -195,9 +206,6 @@
 		
 		}
 		
-		
-		
-		
 	</script>
 	
 </head>
@@ -236,6 +244,9 @@
 				<span class="bbtn_s"><input type="button" value="조회" title="지정기간 조회" onclick="searchChartTerm(this.form)"></span>
 			</form>
 		</div>		
+		
+		
+		
 		<%-- 내용이 들어가는 부분 --%>
 		<div class="btn_c">
 			<div class="fR">
@@ -243,8 +254,13 @@
 				<span class="bbtn_bg2"><input type="button" value="AJAX게시판" onclick="readyAjaxChart()"></span>
 			</div>				
 		</div>
-		<canvas id="myChartbar"></canvas>
-		<canvas id="myChartline"></canvas>
+		<div id="canvasArea">
+			<canvas id="myChartbar"></canvas>
+			<canvas id="myChartline"></canvas>
+		</div>
+
+
+
 
 	</div><!-- //content -->
 </div>
