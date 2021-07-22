@@ -48,6 +48,7 @@
 	
 	/* 방 리스트 테이블에 뿌리기 */
 	function createChatingRoom(res) {
+		
 		if (res != null) {
 			var tag ="";
 			
@@ -69,6 +70,7 @@
 				
 			$("#chattingRoomList").empty().append(tag)
 		}
+		
 	}
 	
 	/* 방 만들기 */
@@ -101,7 +103,7 @@
 	/* 채팅방 팝업 페이지 */
 	function goRoom(number,name){
 
-		window.open("/moveChating?roomName=" + name + "&" + "roomNumber="+ number, "_blank", "status=no, width=510, height=1000, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
+		window.open("/moveChating?roomName=" + name + "&" + "roomNumber="+ number, "_blank", "status=no, width=500, height=800, left="+popupX+", top="+popupY+", screenX="+popupX+", screenY="+popupY);
 	
 	}
 	
