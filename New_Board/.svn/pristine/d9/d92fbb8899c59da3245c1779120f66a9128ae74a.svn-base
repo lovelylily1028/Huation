@@ -35,7 +35,7 @@ public class UserController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/user/joinIdCheck")
+	@RequestMapping("/joinIdCheck")
 	public Map<String, Object> joinIdCheck(@RequestParam @Nullable String user_id, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();

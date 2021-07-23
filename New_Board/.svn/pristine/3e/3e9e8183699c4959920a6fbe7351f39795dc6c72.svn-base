@@ -39,7 +39,7 @@ public class AjaxController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/ajax/alist")
+	@RequestMapping("/alist")
 	public String ajaxAccess() {
 
 		return "/ajax/alist";
@@ -54,7 +54,7 @@ public class AjaxController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/doList")
+	@RequestMapping("/doList")
 	public Map<String, Object> doAjax(HttpSession session, Model model, @RequestParam @Nullable String page) {
 
 		map = Service.list(page);
@@ -70,7 +70,7 @@ public class AjaxController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/ajax/aview")
+	@RequestMapping("/aview")
 	public String aview(@RequestParam @Nullable String code, @RequestParam @Nullable String page, Model model) {
 
 		return "/ajax/aview";
@@ -87,7 +87,7 @@ public class AjaxController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/doView")
+	@RequestMapping("/doView")
 	public Map<String, Object> doView(@RequestParam @Nullable String code, @RequestParam @Nullable String page,
 			Model model, HttpServletRequest request, HttpServletResponse response) {
 
@@ -114,7 +114,7 @@ public class AjaxController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/ajax/doEdit", method = RequestMethod.POST)
+	@RequestMapping(value = "/doEdit", method = RequestMethod.POST)
 	public Map<String, Object> doEdit(AjaxBoardDTO ajaxboardDto, Model model, String rmt,
 			@RequestParam @Nullable String page) throws UnsupportedEncodingException {
 
@@ -141,7 +141,7 @@ public class AjaxController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/del")
+	@RequestMapping("/del")
 	public Map<String, Object> delete(@RequestParam String code, @RequestParam @Nullable String page, Model model)
 			throws UnsupportedEncodingException {
 
@@ -166,7 +166,7 @@ public class AjaxController {
 	 * @param rmt     새글인 경우 add 답글인 경우 reply
 	 * @return
 	 */
-	@RequestMapping("/ajax/aAdd")
+	@RequestMapping("/aAdd")
 	public String aAdd(HttpSession session, Model model, @RequestParam @Nullable String bid,
 			@RequestParam @Nullable String page, @RequestParam @Nullable String rmt) {
 		return "/ajax/aadd";
@@ -183,7 +183,7 @@ public class AjaxController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/doAddView")
+	@RequestMapping("/doAddView")
 	public Map<String, Object> doAddview(HttpSession session, Model model, @RequestParam @Nullable String code,
 			@RequestParam @Nullable String page, HttpServletRequest request) {
 
@@ -208,7 +208,7 @@ public class AjaxController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/doAdd")
+	@RequestMapping("/doAdd")
 	public Map<String, Object> ajaxadd(AjaxBoardDTO ajaxDto, MultipartFile file, Model model, String rmt,
 			@RequestParam @Nullable String page) throws UnsupportedEncodingException {
 
@@ -233,7 +233,7 @@ public class AjaxController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/ajax/doCmt")
+	@RequestMapping("/doCmt")
 	public Map<String, Object> doCmt(@RequestParam @Nullable String code, @RequestParam @Nullable String page,
 			Model model, HttpServletRequest request) {
 
@@ -259,7 +259,7 @@ public class AjaxController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/ajax/delCmt", method = RequestMethod.POST)
+	@RequestMapping(value = "/delCmt", method = RequestMethod.POST)
 	public Map<String, Object> cmtDelete(@RequestParam String code, @RequestParam String ccode, Model model)
 			throws UnsupportedEncodingException {
 
@@ -286,7 +286,7 @@ public class AjaxController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/ajax/doAddCmt", method = RequestMethod.POST)
+	@RequestMapping(value = "/doAddCmt", method = RequestMethod.POST)
 	public Map<String, Object> cmtAdd(AjaxCommentDTO ajaxcommentDto, Model model, @RequestParam @Nullable String code,
 			@RequestParam @Nullable String cid, String crmt) throws UnsupportedEncodingException {
 

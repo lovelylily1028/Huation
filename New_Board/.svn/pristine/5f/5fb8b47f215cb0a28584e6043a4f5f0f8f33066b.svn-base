@@ -1,5 +1,3 @@
-<%@page import="java.util.Date"%>
-<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,42 +26,14 @@
 			    } 
 	
 			today = yyyy+'-'+mm+'-'+dd;
-			
-			lastweek = yyyy+'-'+mm+'-'+ (dd-6);
-			
-			document.getElementById("start").setAttribute("value", lastweek);
 			document.getElementById("start").setAttribute("max", today);
-			
-			document.getElementById("end").setAttribute("value", today);
 			document.getElementById("end").setAttribute("max", today);
+			document.getElementById("end").setAttribute("value", today);
 			
 			
 			readyChart()
 			
 		})
-		
-		/* 기간별 검색 */
-		function searchChartTerm(f){
-			
-			// 막대그래프인지 선그래프인지 결정
-			var urlT = f.chooseGraph.value
-			var startT = f.start.value
-			var endT = f.start.value
-		
-			switch(urlT){
-			
-			case "bar":
-				readyChart(startT,endT)
-				break;
-			case "line":
-				readyAjaxChart(startT,endT)
-				break;
-			default :
-				alert('잘못된 접근입니다.')
-				break;
-			}
-		
-		}
 		
 		/* 만들어진 데이터 차트에 뿌리기 */
 		function makeChart(ctx,type,labels, data, label) {
@@ -109,7 +79,7 @@
 		}
 		
 		/*일반게시판 일별 등록수*/
-		function readyChart(startT,endT){
+		function readyChart(startT,endT,sliceT){
 			
 			$('#canvasArea').remove($('myChartbar'))
 			$('#canvasArea').html("<canvas id='myChartbar'></canvas>")
@@ -139,8 +109,13 @@
 					});
 
 					
-					var newLabels = labels
-					var newMyData = myData
+					if(sliceT == "all"){
+						var newLabels = labels
+						var newMyData = myData
+					}else{
+						var newLabels = labels.slice(-5)
+						var newMyData = myData.slice(-5)
+					}
 					
 
 					// Chart.js 막대그래프 그리기
@@ -156,7 +131,7 @@
 		}
 		
 		/*AJAX 게시판 일별 등록수 */
-		function readyAjaxChart(startT,endT){
+		function readyAjaxChart(startT,endT,sliceT){
 			
 			$('#canvasArea').remove($('myChartline'))
 			$('#canvasArea').html("<canvas id='myChartline'></canvas>")
@@ -186,8 +161,13 @@
 						myData.push(item.bcount);
 					});
 
+					if(sliceT == "all"){
 						var newLabels = labels
 						var newMyData = myData
+					}else{
+						var newLabels = labels.slice(-5)
+						var newMyData = myData.slice(-5)
+					}
 					
 					// Chart.js 선그래프 그리기
 					var ctx = $('#myChartline');
@@ -203,7 +183,28 @@
 			
 		}
 		
+		/* 기간별 검색 */
+		function searchChartTerm(f){
+			
+			// 막대그래프인지 선그래프인지 결정
+			var urlT = f.chooseGraph.value
+			var startT = f.start.value
+			var endT = f.start.value
 		
+			switch(urlT){
+			
+			case "bar":
+				readyChart(startT,endT,'all')
+				break;
+			case "line":
+				readyAjaxChart(startT,endT,'all')
+				break;
+			default :
+				alert('잘못된 접근입니다.')
+				break;
+			}
+		
+		}
 		
 	</script>
 	
@@ -225,16 +226,25 @@
 		<div id="content">
 		<div id="bbs_search">
 		
-			<%-- 기본값은 최근 일주일 조회 --%>
+			<!--
+			 1. 검색할 부분에 최소 날짜와 최대날짜 적용하기 및, 마지막 날짜 선택할때 오늘이후 날짜는 선택이 안되도록 적용 
+			 2. 막대그래프에서 검색시 결과물이 막대그래프로 출력, ajax 게시판에서 검색시 선그래프로 출력
+			 3. 새로운 그래프를 그릴때는 항상 기존 그래프 삭제 후 새로 세우기
+			 4. 컬러 랜덤으로 씌우기
+			 5. 기간 선택시 slice 변경
+			-->
+		
+			<%-- 현재 날짜 조회 --%>
 			<form name="search" method="post">
-				<input type="date" id="start" name="start" min="2021-06-01" max="" value="">	
+				<input type="date" id="start" name="start" value="2021-06-01" min="2021-06-01">	
 				<strong>부터</strong>
-				<input type="date" id="end" name="end" min="2021-06-01" max="" value="">	
+				<input type="date" id="end" min="2021-06-01">	
 				<strong>까지</strong>
 				<input type="hidden" id="chooseGraph" value="bar" >
 				<span class="bbtn_s"><input type="button" value="조회" title="지정기간 조회" onclick="searchChartTerm(this.form)"></span>
 			</form>
 		</div>		
+		
 		
 		
 		<%-- 내용이 들어가는 부분 --%>
@@ -245,9 +255,7 @@
 			</div>				
 		</div>
 		<div id="canvasArea">
-			<!--  일반게시판 그래프가 출력 될 곳 -->
 			<canvas id="myChartbar"></canvas>
-			<!-- AJAX 게시판 그래프가 출력 될 곳 -->
 			<canvas id="myChartline"></canvas>
 		</div>
 

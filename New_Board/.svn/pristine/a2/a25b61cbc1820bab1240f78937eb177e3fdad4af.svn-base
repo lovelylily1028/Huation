@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+/* 채팅방 css*/
+.chattingDiv{
+   width:95%;
+   height:95%;
+   position: fixed;
+   right:0;
+   bottom:0px;
+   z-index: 5;
+   padding:15px;
+   transition: all .5s;
+}
+.chattingDiv > div{
+   width: 100%;
+   height: 100%;
+   background-color: #fff;
+   border-top: 3px solid #17191d;
+   border-bottom: 3px solid #17191d;
+}
+.chatHeader{
+   width: 100%;
+   height: 60px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 0 100px 0 10px;
+   border-bottom: .5px solid #e3e3e3;
+}
+.chatHeader .roomName{margin : 0 30px 0 0 }
+.chatHeader img{ cursor: pointer; }
+.chatHeader img:nth-child(1) { width: 130px; height: 40px;}
+.chatHeader img:nth-child(2) { width: 28px; height: 28px;}
+
+.chatBody{
+   width: 96%;
+   height: 600px;
+   background-color: #cff0da;
+   border-bottom: .5px solid #e3e3e3;
+   overflow: scroll;
+   -ms-overflow-style: none;
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+}
+.chatBody::-webkit-scrollbar{ display:none; }
+
+/************************************************
+	상대방 채팅 CSS
+*************************************************/
+.yourChattingBox{
+   display: block;
+   justify-content: flex-start;
+}
+.yourChattingName{ font:15px NEXON Lv2 Gothic Bold;}
+
+.yourChattingTxt{
+   display:inline-block;
+   border-radius:5px;
+   max-width:300px;
+   padding:10px;
+   border:none;
+   background-color: #fff;
+   margin:5px 0 5px 7px;
+   font-weight: 500;
+   word-wrap:break-word;
+}
+
+/************************************************
+	내가 보낸 채팅 CSS
+*************************************************/
+.myChattingBox{
+   display: flex;
+   justify-content: flex-end;
+}
+.myChattingTxt{
+   display:inline-block;
+   border-radius:5px;
+   max-width:300px;
+   padding:10px;
+   background-color: #fef01b;
+   margin:5px 0 5px 7px;
+   font-weight: 500;
+   word-wrap:break-word;
+}
+
+/************************************************
+	작성페이지 CSS
+*************************************************/
+.chatInput{
+   width: 100%;
+   height: 100px;
+   display: flex;
+   justify-content:space-between;
+   align-items: center;
+}
+#userChatText{
+   width: 360px;
+   height: 95px;
+   resize: none;
+   border: none;
+   padding:8px;
+   font: 16px NEXON Lv2 Gothic Bold;
+   outline: none; 
+}
+#ChatSubmitBtn{
+   width: 90px;
+   height:60px;
+   margin-right:5px;
+   font-weight:600;
+   border:none;
+   border-radius:5px;
+   background-color: #8EC0E4;
+   
+}

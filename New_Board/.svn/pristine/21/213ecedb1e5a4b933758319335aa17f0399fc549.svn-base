@@ -22,9 +22,10 @@ public class LoginController {
 	/**
 	 * 로그인 페이지
 	 */
-	@RequestMapping("/user/loginPage")
-	public String login() {	return "/user/loginPage"; }
-	
+	@RequestMapping("/login")
+	public String login(HttpSession session, Model model) {
+		return "user/loginPage";
+	}
 
 	/**
 	 * 로그인 확인
@@ -35,7 +36,7 @@ public class LoginController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/user/loginCheck")
+	@RequestMapping("/loginCheck")
 	public String loginAccess(HttpServletRequest request, String user_id, String user_pw, Model model) {
 
 		userDto = new UserDTO();
@@ -45,21 +46,15 @@ public class LoginController {
 			HttpSession session = request.getSession();
 			session.setAttribute("user_id", userDto.getUser_id());
 			session.setAttribute("user_name", userDto.getUser_name());
-			session.setAttribute("loginId", userDto.getUser_id());
-			
-			String dest = (String)session.getAttribute("dest"); // 로그인 전에 접속하려던 곳
-			String redirect = (dest == null) ? "/board/list" : dest;
-			
+
 			model.addAttribute("msg", userDto.getUser_name() + "님 환영합니다.");
-			model.addAttribute("location", redirect);
-			
+			model.addAttribute("location", "/list");
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
-			model.addAttribute("location", "/user/loginPage");
+			model.addAttribute("location", "/");
 		}
-		
-		return "util/message";
 
+		return "util/message";
 	}
 
 	/**
@@ -71,7 +66,7 @@ public class LoginController {
 	public String logoutAccess(HttpSession session, Model model) {
 		session.invalidate();
 		model.addAttribute("msg", "로그아웃되었습니다.");
-		model.addAttribute("location", "/user/loginPage");
+		model.addAttribute("location", "/");
 		return "util/message";
 	}
 
