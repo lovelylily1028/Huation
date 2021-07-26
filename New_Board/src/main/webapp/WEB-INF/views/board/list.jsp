@@ -36,7 +36,7 @@
 		<!-- 게시판 부분 시작 -->
 		<div id="content">
 			<div id="bbs_search">
-				<form name="search" method="post" action="/list">
+				<form name="search" method="post" action="/board/list">
 					<fieldset>
 						<legend>검색조건 입력폼</legend>
                               <select name="category" id="category">

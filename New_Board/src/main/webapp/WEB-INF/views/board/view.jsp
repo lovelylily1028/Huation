@@ -10,6 +10,12 @@
 		<script type="text/javascript">
 		
 		
+		$(function(){
+			console.log(${map.boardDto.next_title});	
+		})
+		
+		
+		
 		/* 수정 토글 */
 		function editToggle(){
 			  if ($('#updateBtn').val() == '수정'){
@@ -273,14 +279,21 @@
 									<dl>
 										<dt>다음글 ▼</dt>
 										<dd>
-											${map.boardDto.pre_title }
+											<c:choose>
+												<c:when test="${map.boardDto.next_title eq '' && map.boardDto.next_title == null }">
+														 마지막 게시글 입니다.
+												</c:when>
+												<c:otherwise>
+														${map.boardDto.next_title }
+												</c:otherwise>											
+											</c:choose>
 										</dd>
 									</dl>
 								</div>
 								<div class="btn_all">
 									<div class="fL"></div>
 									<div class="fR">
-										<span class="bbtn"><a onclick="location.href='NewList?category=${map.category}&page=${map.page }&search=${map.search }'" title="일반게시판">목록</a></span>
+										<span class="bbtn"><a onclick="location.href='/board/list?category=${map.category}&page=${map.page }&search=${map.search }'" title="일반게시판">목록</a></span>
 									</div>
 								</div>
 							</div>

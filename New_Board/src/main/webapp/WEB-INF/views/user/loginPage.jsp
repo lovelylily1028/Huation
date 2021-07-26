@@ -4,10 +4,20 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
-		<script async="" src="//www.google-analytics.com/analytics.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script type="text/javascript">
+		
+		<%
+			String login_id = (String)session.getAttribute("login_id");
+		
+			if(login_id != null){
+
+			}
+		
+		%>
+	
+		
+		
 			// 로그인 폼 체크
 			function loginFormCheck(f) {
 	

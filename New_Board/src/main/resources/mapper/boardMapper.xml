@@ -146,18 +146,29 @@
 	 
 	<!-- content_view -->
 	<select id="selectBoard" resultType="com.site.dto.BoardDTO">
-		select * from (
-		 select t.* ,
-       
-        	lead(bid+1, 0) over(order by bid) next_bid,
-        	lead(title, 1, '다음글') over(order by bid) next_title,
-        
-        	lag(bid-1, 0) over(order by bid) pre_bid,
-        	lag(title, 1, '이전글') over(order by bid) pre_title
-        
-  		 	from yj_notice_board t
- 		)
-			 where bid=#{bid}
+		SELECT A.*
+
+			FROM (
+			
+			    SELECT
+			
+			        BID,
+			
+			        TITLE,
+			
+			        LEAD(BID, 1) OVER (ORDER BY BID DESC) AS pre_bid,
+			
+			        LEAD(TITLE, 1, '다음글이 없습니다') OVER (ORDER BY BID DESC) AS pre_title,
+			
+			        LAG(BID, 1) OVER (ORDER BY BID DESC) AS next_bid,
+			
+			        LAG(TITLE, 1, '이전글이 없습니다') OVER (ORDER BY BID DESC) AS next_title
+			
+			    FROM YJ_NOTICE_BOARD
+			
+			) A
+			
+			WHERE A.BID = #{bid}
 	</select>
 
 	<!-- selectUpHit -->

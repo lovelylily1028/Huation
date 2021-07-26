@@ -13,7 +13,7 @@
 	<artifactId>New_Board</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>New_Board</name>
-	<packaging>war</packaging>
+	<packaging>war</packaging> <!-- 리눅스 배포를 위한 설정 추가 -->
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
