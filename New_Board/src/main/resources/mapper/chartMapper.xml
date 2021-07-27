@@ -28,8 +28,8 @@
   		FROM ( SELECT TO_CHAR(day, 'YYYY-MM-DD') AS wrtday
               , COUNT(*) cnt
            FROM yj_notice_board
-          WHERE day BETWEEN TO_DATE('2021-06-01', 'YYYY-MM-DD')
-                             AND TO_DATE('2021-07-22', 'YYYY-MM-DD') 
+           WHERE DAY BETWEEN TO_CHAR(SYSDATE-#{btDay},'YYYYMMDD')  
+                        AND  TO_CHAR(SYSDATE+1,'YYYYMMDD') 
           GROUP BY day
         ) a
       , ( SELECT TO_DATE(#{start},'YYYY-MM-DD') + LEVEL - 1 AS dt  
@@ -68,8 +68,8 @@
 		  FROM ( SELECT TO_CHAR(reg_datetime, 'YYYY-MM-DD') AS wrtday
 		              , COUNT(*) cnt
 		           FROM yj_ajax_board
-		          WHERE reg_datetime BETWEEN TO_DATE('2021-06-01', 'YYYY-MM-DD')
-		                             AND TO_DATE('2021-07-22', 'YYYY-MM-DD') 
+		          WHERE reg_datetime BETWEEN TO_CHAR(SYSDATE-#{btDay},'YYYYMMDD')  
+                      					  AND  TO_CHAR(SYSDATE+1,'YYYYMMDD') 
 		          GROUP BY reg_datetime
 		        ) a
 		      , ( SELECT TO_DATE(#{start},'YYYY-MM-DD') + LEVEL - 1 AS dt  

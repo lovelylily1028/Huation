@@ -23,11 +23,11 @@ public class ChartServiceImpl implements ChartService {
 	 * 일반게시판 막대그래프 리스트 가져오기
 	 */
 	@Override
-	public List<GraphDTO> barList(String start,String end){
+	public List<GraphDTO> barList(String start,String end,String btDay){
 		
 		glist = new ArrayList<GraphDTO>();
 		
-		glist = chartMapper.barList(start,end);
+		glist = chartMapper.barList(start,end,btDay);
 		
 		return glist;
 	}
@@ -36,11 +36,11 @@ public class ChartServiceImpl implements ChartService {
 	 * AJAX 게시판 선그래프 리스트 가져오기
 	 */
 	@Override
-	public List<GraphDTO> lineList(String start,String end){
+	public List<GraphDTO> lineList(String start,String end,String btDay){
 		
 		glist = new ArrayList<GraphDTO>();
 		
-		glist = chartMapper.lineList(start,end);
+		glist = chartMapper.lineList(start,end,btDay);
 		
 		return glist;
 	}

@@ -136,16 +136,16 @@
 	</select>
 
 
-
-
-	<!-- content_view -->
-	<!-- <select id="selectBoard" resultType="com.site.dto.BoardDTO">
-		select * from yj_notice_board
-		where bid=#{bid}
-	</select> -->
-	 
 	<!-- content_view -->
 	<select id="selectBoard" resultType="com.site.dto.BoardDTO">
+		
+		select * from yj_notice_board
+		where bid=#{bid}
+	
+	</select>
+	
+	<!-- TODO : 이전게시물 제목, 다음 게시물 제목 가져오는 쿼리문 service에 적용-->
+	<!-- <select id="">
 		SELECT A.*
 
 			FROM (
@@ -169,7 +169,8 @@
 			) A
 			
 			WHERE A.BID = #{bid}
-	</select>
+	</select> -->
+	
 
 	<!-- selectUpHit -->
 	<update id="selectUpHit">

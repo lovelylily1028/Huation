@@ -9,8 +9,7 @@ String id = (String) session.getAttribute("user_id");
 <html>
 <head>
 <meta charset="UTF-8">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" href="/resources/css/newCss.css" type="text/css">
 <link rel="stylesheet" href="/resources/css/NewCSS2.css" type="text/css">
 

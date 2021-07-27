@@ -9,13 +9,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script type="text/javascript">
 		
-		
-		$(function(){
-			console.log(${map.boardDto.next_title});	
-		})
-		
-		
-		
 		/* 수정 토글 */
 		function editToggle(){
 			  if ($('#updateBtn').val() == '수정'){

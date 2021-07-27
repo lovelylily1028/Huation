@@ -51,33 +51,39 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int insertBoard(BoardDTO boardDto, MultipartFile file) {
 
-		// 원본파일 이름
-		String filename = file.getOriginalFilename();
-		// 확장자명 가져오기
-		if (FilenameUtils.getExtension(filename).toLowerCase() != "") {
-			// 파일저장위치
-			//String fileUrl = "D:/Data/";
-
-			String uploadFileName = filename;
-
-			File f = new File(uploadFileDir + uploadFileName);
-			// 파일업로드
-			try {
-				file.transferTo(f);
-			} catch (Exception e) {
-				e.printStackTrace();
-
-			}
-			// 파일이름저장
-			boardDto.setFileName(uploadFileName);
-		} else {
+		if(file == null) {
 			boardDto.setFileName("");
+		}else {
+			// 원본파일 이름
+			String filename = file.getOriginalFilename();
+			
+			// 확장자명 가져오기
+			if (FilenameUtils.getExtension(filename).toLowerCase() != "") {
+				// 파일저장위치
+				//String fileUrl = "D:/Data/";
+				
+				String uploadFileName = filename;
+				
+				File f = new File(uploadFileDir + uploadFileName);
+				// 파일업로드
+				try {
+					file.transferTo(f);
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+				}
+				// 파일이름저장
+				boardDto.setFileName(uploadFileName);
+			} else {
+				boardDto.setFileName("");
+			}
+			
 		}
-
 		// mapper에 전달
 		i = boardMapper.insertBoard(boardDto);
-
+		
 		return i;
+		
 	}
 
 	@Override

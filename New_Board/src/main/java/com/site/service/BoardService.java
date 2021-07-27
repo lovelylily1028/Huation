@@ -27,6 +27,7 @@ public interface BoardService {
 
 	void fileDown(String bid, HttpServletResponse response) throws Exception;
 
+
 	
 
 	

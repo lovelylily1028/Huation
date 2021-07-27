@@ -45,16 +45,19 @@ public class ChartController {
 
 	/**
 	 * 일반게시판 일일 게시물 등록수
-	 *
-	 * @param start 기간검색 시작일자
-	 * @param end 기간검색 종료일자
-	 * @return List<GraphDTO>
+	 * 
+	 * @param session
+	 * @param model
+	 * @param start 기간검색 시작 일자
+	 * @param end 기간검색 종료 일자
+	 * @param btDay 시작과 종료일자 차이
+	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/dobar")
-	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end) {
+	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String btDay) {
 		 
-		return chartService.barList(start,end);
+		return chartService.barList(start,end,btDay);
 	}
 	
 	/**
@@ -66,9 +69,9 @@ public class ChartController {
 	 */
 	@ResponseBody
 	@RequestMapping("/doline")
-	public List<GraphDTO> doline(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end) {
+	public List<GraphDTO> doline(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String btDay) {
 		
-		return chartService.lineList(start,end);
+		return chartService.lineList(start,end,btDay);
 	}
 	
 	
