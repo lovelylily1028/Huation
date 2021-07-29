@@ -149,7 +149,7 @@
 		})
 
 	}
-
+	
 	/*일반게시판 일별 등록수*/
 	function readyChart() {
 
@@ -161,8 +161,7 @@
 		
 		var btDayT = between()
 
-		$
-				.ajax({
+		$.ajax({
 					type : "GET",
 					url : "dobar",
 					data : {

@@ -19,6 +19,7 @@ public class ChartServiceImpl implements ChartService {
 	@Autowired
 	ChartMap chartMapper;
 	
+
 	/*
 	 * 일반게시판 막대그래프 리스트 가져오기
 	 */
