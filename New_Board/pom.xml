@@ -55,6 +55,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- 서버 재시작 없이 정적소스 반영 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -120,9 +127,9 @@
 			<artifactId>OracleDriver</artifactId>
 			<version>11.2.0.3</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6_g.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc7.jar</systemPath>
 		</dependency>
-
+		
 		<!-- Excel Read/Write 를 위한 Dependency 추가 -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -159,10 +166,10 @@
 
 		<!-- log4jdbc -->
 		<dependency>
-		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
-		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-		    <version>1.16</version>
-		</dependency>  
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+			<version>1.16</version>
+		</dependency>
 
 	</dependencies>
 
