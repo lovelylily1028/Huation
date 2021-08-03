@@ -205,7 +205,11 @@
 		$('#canvasArea').html("<canvas id='myChartline'></canvas>")
 
 		var startT = $('#start').val()
+		
 		var endT = $('#end').val()
+		
+		console.log("시작일자  : " + startT);
+		console.log("종료일 : " + endT);
 		
 		var btDayT = between()
 
@@ -242,6 +246,8 @@
 
 				makeChart(ctx, 'line', newLabels, newMyData,
 						'AJAX 게시판 날짜별 게시물 등록수');
+				
+				
 
 			}
 		});

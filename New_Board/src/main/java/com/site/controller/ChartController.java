@@ -57,6 +57,13 @@ public class ChartController {
 	@RequestMapping("/dobar")
 	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String btDay) {
 		 
+		System.out.println("//////////////////////////////////////");
+		System.out.println("start : "+	start);
+		System.out.println("end : "+ end);
+		System.out.println("byDat : "+ btDay);
+		System.out.println("//////////////////////////////////////");
+		
+		
 		return chartService.barList(start,end,btDay);
 	}
 	

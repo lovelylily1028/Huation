@@ -28,14 +28,14 @@
   		FROM ( SELECT TO_CHAR(day, 'YYYY-MM-DD') AS wrtday
               , COUNT(*) cnt
            FROM yj_notice_board
-           WHERE DAY BETWEEN TO_CHAR(SYSDATE-#{btDay},'YYYY-MM-DD')  
-                        AND  TO_CHAR(SYSDATE+1,'YYYY-MM-DD') 
+           WHERE DAY BETWEEN #{start} 
+                        AND  #{end} 
           GROUP BY day
         ) a
-      , ( SELECT TO_DATE(#{start},'YYYY-MM-DD') + LEVEL - 1 AS dt  
+      , ( SELECT #{start} + LEVEL - 1 AS dt  
             FROM dual 
-         CONNECT BY LEVEL &lt;= (TO_DATE(#{end},'YYYY-MM-DD')        
-                            - TO_DATE(#{start},'YYYY-MM-DD') + 1)   
+         CONNECT BY LEVEL &lt;= #{end}        
+                            - #{start} + 1   
         ) b
  		 WHERE b.dt = a.wrtday(+)
   		GROUP BY b.dt
@@ -64,23 +64,23 @@
 	<select id="lineList" resultType="com.site.dto.GraphDTO">
 		
 		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS wrtday
-		     , NVL(SUM(a.cnt), 0) bcount
-		  FROM ( SELECT TO_CHAR(reg_datetime, 'YYYY-MM-DD') AS wrtday
-		              , COUNT(*) cnt
-		           FROM yj_ajax_board
-		          WHERE reg_datetime BETWEEN TO_CHAR(SYSDATE-#{btDay},'YYYY-MM-DD')  
-                      					  AND  TO_CHAR(SYSDATE+1,'YYYY-MM-DD') 
-		          GROUP BY reg_datetime
-		        ) a
-		      , ( SELECT TO_DATE(#{start},'YYYY-MM-DD') + LEVEL - 1 AS dt  
-		            FROM dual 
-		         CONNECT BY LEVEL &lt;= (TO_DATE(#{end},'YYYY-MM-DD')       
-		                            - TO_DATE(#{start},'YYYY-MM-DD') + 1)  
-		        ) b
-		  WHERE b.dt = a.wrtday(+)
-		  GROUP BY b.dt
-		  ORDER BY b.dt 
-
+   		  , NVL(SUM(a.cnt), 0) bcount
+  		FROM ( SELECT TO_CHAR(reg_datetime, 'YYYY-MM-DD') AS wrtday
+              , COUNT(*) cnt
+           FROM yj_ajax_board
+           WHERE reg_datetime BETWEEN #{start} 
+                      			  AND  #{end} 
+          GROUP BY reg_datetime
+        ) a
+      , ( SELECT #{start} + LEVEL - 1 AS dt  
+            FROM dual 
+         CONNECT BY LEVEL &lt;= #{end}        
+                            - #{start} + 1   
+        ) b
+ 		 WHERE b.dt = a.wrtday(+)
+  		GROUP BY b.dt
+ 		 ORDER BY b.dt
+		
 	</select>
 	
 

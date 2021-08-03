@@ -28,7 +28,11 @@ public class ChartServiceImpl implements ChartService {
 		
 		glist = new ArrayList<GraphDTO>();
 		
-		glist = chartMapper.barList(start,end,btDay);
+		java.sql.Date startT = java.sql.Date.valueOf(start);
+		java.sql.Date endT = java.sql.Date.valueOf(end);
+
+			
+		glist = chartMapper.barList(startT,endT,btDay);
 		
 		return glist;
 	}
@@ -41,7 +45,10 @@ public class ChartServiceImpl implements ChartService {
 		
 		glist = new ArrayList<GraphDTO>();
 		
-		glist = chartMapper.lineList(start,end,btDay);
+		java.sql.Date startT = java.sql.Date.valueOf(start);
+		java.sql.Date endT = java.sql.Date.valueOf(end);
+		
+		glist = chartMapper.lineList(startT,endT,btDay);
 		
 		return glist;
 	}
