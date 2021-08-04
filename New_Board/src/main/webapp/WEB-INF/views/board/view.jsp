@@ -83,7 +83,7 @@
 		
 		/* 답글 작성페이지로 이동 */
 		function replyView(bid){
-			location.href="board/reply_view?bid="+bid;
+			location.href="./reply_view?bid="+bid;
 		}
 		
 		/* 댓글 등록 수정,삭제 */
@@ -107,7 +107,7 @@
 				
 			}else if(num == '3'){
 				if(confirm('댓글을 삭제하시겠습니까?')){
-					location.href= 'board/commentDelete?bid='+$(f.bid).val()+'&cid='+$(f.cid).val();
+					location.href= './commentDelete?bid='+$(f.bid).val()+'&cid='+$(f.cid).val();
 				}else{
 					return false;
 				}

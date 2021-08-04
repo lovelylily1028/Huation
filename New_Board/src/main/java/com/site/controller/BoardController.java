@@ -248,7 +248,7 @@ public class BoardController {
 		} else {
 			model.addAttribute("msg", "답변글 게시에 실패하였습니다.");
 		}
-		model.addAttribute("location", "/view?bid=" + boardDto.getBid());
+		model.addAttribute("location", "/board/view?bid=" + boardDto.getBid());
 
 		return "util/message";
 	}
@@ -270,7 +270,7 @@ public class BoardController {
 		} else {
 			model.addAttribute("msg", " 댓글 작성에 실패하였습니다.");
 		}
-		model.addAttribute("location", "/view?bid=" + commentDto.getBid());
+		model.addAttribute("location", "/board/view?bid=" + commentDto.getBid());
 
 		return "util/message";
 	}
@@ -297,7 +297,7 @@ public class BoardController {
 			model.addAttribute("msg", " 댓글 수정에 실패하였습니다.");
 		}
 
-		model.addAttribute("location", "/view?bid=" + bid);
+		model.addAttribute("location", "/board/view?bid=" + bid);
 
 		return "util/message";
 	}
@@ -322,7 +322,7 @@ public class BoardController {
 		} else {
 			model.addAttribute("msg", " 댓글 삭제에 실패하였습니다.");
 		}
-		model.addAttribute("location", "/view?bid=" + bid);
+		model.addAttribute("location", "/board/view?bid=" + bid);
 
 		return "util/message";
 	}

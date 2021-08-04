@@ -1,6 +1,7 @@
 package com.site.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class ChartServiceImpl implements ChartService {
 		java.sql.Date startT = java.sql.Date.valueOf(start);
 		java.sql.Date endT = java.sql.Date.valueOf(end);
 
+		System.out.println("serviceImpl Start : "+ startT);
+		System.out.println("serviceImpl end : "+ endT);
+		
+		Date nowTime = new Date();
+		
+		System.out.println("NowJavaUtilDate: " + nowTime);
 			
 		glist = chartMapper.barList(startT,endT,btDay);
 		
