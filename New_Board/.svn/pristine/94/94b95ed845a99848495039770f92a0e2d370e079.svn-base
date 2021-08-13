@@ -1,0 +1,49 @@
+  
+#Tomcat Server Setting
+server.port=8080
+
+#MVC 기본 경로 지정
+#JSP, HTML ModelAndView Path Setting
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+spring.mvc.static-path-pattern=/resources/**
+
+#서버 재시작 없이 정적 소스 반영
+spring.devtools.livereload.enabled=true
+spring.freemarker.cache=false
+spring.thymeleaf.cache=false
+
+#JSP to Modify Not Restart Server : 재시작 없이 jsp가 적용되는 설정
+server.servlet.jsp.init-parameters.development=true
+
+#Mapper 경로 지정해주기
+mybatis.mapper-locations:classpath:mapper/*.xml
+
+# hueation datasource(oracle)
+#spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+#spring.datasource.url=jdbc:oracle:thin:@192.168.2.82:1521/orcl
+#spring.datasource.username=new_yjchoi
+#spring.datasource.password=chldudwn1!
+
+#file 업로드 디렉토리
+file.upload.directory =D:/Data/
+#file 다운로드 디렉토리
+file.download.directory =D:/Data/
+
+
+#Scheduler cron 시간
+#10분마다 실행
+board.cron = 0 0/10 * * * *  
+#10분마다 실행
+AjaxBoard.cron = 0 0/10 * * * *
+
+
+########################################################
+#	h2 DB 연결 
+########################################################
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.url=jdbc:h2:file:D:/Data/sample
+#spring.datasource.url=jdbc:h2:tcp://localhost/~/test
+spring.datasource.username=sa
+spring.datasource.password=
+spring.h2.console.enabled=true
