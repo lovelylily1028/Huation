@@ -4,7 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,9 @@ import com.site.dto.BoardDTO;
 
 @Component
 public class Scheduler {
+	
+	public Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	BoardService boardService;
 	@Autowired
@@ -29,7 +33,10 @@ public class Scheduler {
 
 		/* 스케쥴러 실행 시간 찍어주기 */
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println("### Cron Run 10 Minutes  : " + simpleDateFormat.format(new Date()));
+		
+		log.info("[### BOARD.Cron RUN 30 Minutes : {}]", simpleDateFormat.format(new Date()));
+		
+//		System.out.println("### Cron Run 10 Minutes  : " + simpleDateFormat.format(new Date()));
 
 		// TODO 1에서 5 사이의 랜덤 숫자를 만든 뒤에 그 숫자만큼 for문을 돌려서, 게시물 업로드 할 예정
 		int num = 0;
@@ -43,7 +50,7 @@ public class Scheduler {
 
 			boardDto.setUser_id("admin");
 			boardDto.setTitle("※ 정 기 점 검 ※");
-			boardDto.setBcontents("정기점검 게시물 입니다.");
+			boardDto.setBcontents(" 스케쥴러 기능으로 올라가는 게시물 입니다.");
 
 			boardService.insertBoard(boardDto, file);
 		}
@@ -55,7 +62,10 @@ public class Scheduler {
 
 		/* 스케쥴러 실행 시간 찍어주기 */
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println("### Ajax Run 1 Minutes  : " + simpleDateFormat.format(new Date()));
+		
+		log.info("[### AjaxBOARD.Cron RUN 1 HOUR : {}]", simpleDateFormat.format(new Date()));
+		
+//		System.out.println("### Ajax Run 1 Minutes  : " + simpleDateFormat.format(new Date()));
 
 		// TODO 1에서 5 사이의 랜덤 숫자를 만든 뒤에 그 숫자만큼 for문을 돌려서, 게시물 업로드 할 예정
 		int num = 0;
@@ -68,7 +78,7 @@ public class Scheduler {
 
 			aDto.setWriter("admin");
 			aDto.setTitle("※ 정 기 점 검 ※");
-			aDto.setAcontent("정기점검 게시물 입니다.");
+			aDto.setAcontent(" 스케쥴러 기능으로 올라가는 게시물 입니다.");
 			
 			String rmt ="add";
 			

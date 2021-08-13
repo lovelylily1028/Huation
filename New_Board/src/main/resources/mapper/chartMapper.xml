@@ -23,27 +23,25 @@
 	 
 	<select id="barList" resultType="com.site.dto.GraphDTO">
 
-		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS wrtday
+		 SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS wrtday
    		  , NVL(SUM(a.cnt), 0) bcount
-  		FROM ( SELECT TO_CHAR(day, 'YYYY-MM-DD') AS wrtday
+  		FROM ( SELECT TO_CHAR(day) AS wrtday
               , COUNT(*) cnt
            FROM yj_notice_board
-           WHERE DAY BETWEEN #{start} 
-                        AND  #{end} 
+           WHERE DAY BETWEEN TO_DATE('${start}', 'YY-MM-DD')
+                        AND  TO_DATE('${tomorrow}','YY-MM-DD')
           GROUP BY day
         ) a
       , ( SELECT #{start} + LEVEL - 1 AS dt  
             FROM dual 
-         CONNECT BY LEVEL &lt;= #{end}        
-                            - #{start} + 1   
+         CONNECT BY LEVEL &lt;= TO_DATE('${end}', 'YY-MM-DD')      
+                            -  TO_DATE('${start}', 'YY-MM-DD') + 1   
         ) b
  		 WHERE b.dt = a.wrtday(+)
   		GROUP BY b.dt
  		 ORDER BY b.dt
 		
 	</select>
-	
-	
 	
 	<!-- AJAX 게시판 선그래프 리스트 게시물이 없는 날은 표시x -->
 	<!-- <select id="lineList" resultType="com.site.dto.GraphDTO">
@@ -65,17 +63,17 @@
 		
 		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS wrtday
    		  , NVL(SUM(a.cnt), 0) bcount
-  		FROM ( SELECT TO_CHAR(reg_datetime, 'YYYY-MM-DD') AS wrtday
+  		FROM ( SELECT TO_CHAR(reg_datetime) AS wrtday
               , COUNT(*) cnt
            FROM yj_ajax_board
-           WHERE reg_datetime BETWEEN #{start} 
-                      			  AND  #{end} 
+           WHERE reg_datetime BETWEEN TO_DATE('${start}', 'YY-MM-DD')
+                        AND  TO_DATE('${tomorrow}','YY-MM-DD')
           GROUP BY reg_datetime
         ) a
       , ( SELECT #{start} + LEVEL - 1 AS dt  
             FROM dual 
-         CONNECT BY LEVEL &lt;= #{end}        
-                            - #{start} + 1   
+         CONNECT BY LEVEL &lt;= TO_DATE('${end}', 'YY-MM-DD')      
+                            -  TO_DATE('${start}', 'YY-MM-DD') + 1    
         ) b
  		 WHERE b.dt = a.wrtday(+)
   		GROUP BY b.dt

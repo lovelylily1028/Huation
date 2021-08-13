@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import com.site.service.ChartService;
 
 @Controller
 public class ChartController {
+	
+	public Logger log = LoggerFactory.getLogger(getClass());
 	
 	Map<String, Object> map;
 	
@@ -55,16 +59,11 @@ public class ChartController {
 	 */
 	@ResponseBody
 	@RequestMapping("/dobar")
-	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String btDay) {
+	public List<GraphDTO> dobar(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String tomorrow,@RequestParam @Nullable String btDay) {
 		 
-		System.out.println("//////////////////////////////////////");
-		System.out.println("start : "+	start);
-		System.out.println("end : "+ end);
-		System.out.println("byDat : "+ btDay);
-		System.out.println("//////////////////////////////////////");
+		log.info("[ Page START DAY : {}, END DAY : {}, TOMORROW : {} ,btDay: {} ]", start, end, tomorrow, btDay);
 		
-		
-		return chartService.barList(start,end,btDay);
+		return chartService.barList(start,end,tomorrow,btDay);
 	}
 	
 	/**
@@ -76,9 +75,9 @@ public class ChartController {
 	 */
 	@ResponseBody
 	@RequestMapping("/doline")
-	public List<GraphDTO> doline(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String btDay) {
+	public List<GraphDTO> doline(HttpSession session, Model model,@RequestParam @Nullable String start,@RequestParam @Nullable String end,@RequestParam @Nullable String tomorrow,@RequestParam @Nullable String btDay) {
 		
-		return chartService.lineList(start,end,btDay);
+		return chartService.lineList(start,end,tomorrow,btDay);
 	}
 	
 	

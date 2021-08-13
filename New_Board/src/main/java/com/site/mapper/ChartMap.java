@@ -10,8 +10,9 @@ import com.site.dto.GraphDTO;
 @Mapper
 public interface ChartMap {
 
-	List<GraphDTO> barList(Date start, Date end, String btDay);
+	List<GraphDTO> barList(Date start, Date end,Date tomorrow, String btDay);
 
-	List<GraphDTO> lineList(Date start, Date end, String btDay);
+	List<GraphDTO> lineList(Date start, Date end,Date tomorrow, String btDay);
+
 
 }

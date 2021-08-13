@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com</groupId>
 	<artifactId>New_Board</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>New_Board</name>
 	<packaging>war</packaging> <!-- 리눅스 배포를 위한 설정 추가 -->
 	<description>Demo project for Spring Boot</description>
@@ -39,6 +39,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
@@ -90,6 +91,14 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc8.jar</systemPath> <!-- ojdbc6_g연결 -->
 		</dependency>
+		<!-- oracle 라이브러리 -->
+		<dependency>
+			<groupId>oracle.jdbc</groupId>
+			<artifactId>OracleDriver</artifactId>
+			<version>11.2.0.3</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc7.jar</systemPath>
+		</dependency>
 
 		<!-- 이메일 인증 -->
 		<dependency>
@@ -119,15 +128,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<!-- oracle 라이브러리 -->
-		<dependency>
-			<groupId>oracle.jdbc</groupId>
-			<artifactId>OracleDriver</artifactId>
-			<version>11.2.0.3</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc7.jar</systemPath>
 		</dependency>
 
 		<!-- Excel Read/Write 를 위한 Dependency 추가 -->

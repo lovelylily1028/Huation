@@ -21,6 +21,7 @@
 	$(function() {
 
 		var today = new Date();
+		
 		var dd = today.getDate();
 		var mm = today.getMonth() + 1; //January is 0!
 		var yyyy = today.getFullYear();
@@ -31,16 +32,29 @@
 		today = yyyy + '-' + mm + '-' + dd;
 
 		var lastweek = lastWeek();
+		var tomorrow = Tomorrow();
 		
 		document.getElementById("start").setAttribute("value", lastweek);
 		document.getElementById("start").setAttribute("max", today);
 
 		document.getElementById("end").setAttribute("value", today);
 		document.getElementById("end").setAttribute("max", today);
+		
+		document.getElementById("tomorrow").setAttribute("value", tomorrow);
 
 		readyChart()
 
 	})
+	
+	/* 내일 날짜 */
+	function Tomorrow(){
+		
+		var t = new Date();
+		var dayOftomorrow = t.getDate();
+		t.setDate(dayOftomorrow + 1);
+		
+		return getDateStr(t);
+	}
 	
 	/* 현재 시각으로 7일 전 날짜 조회 */
 	function lastWeek() {
@@ -153,11 +167,13 @@
 	/*일반게시판 일별 등록수*/
 	function readyChart() {
 
+		
 		$('#canvasArea').remove($('myChartbar'))
 		$('#canvasArea').html("<canvas id='myChartbar'></canvas>")
 
 		var startT = $('#start').val()
 		var endT = $('#end').val()
+		var tomorrowT = $('#tomorrow').val()
 		
 		var btDayT = between()
 
@@ -167,7 +183,8 @@
 					data : {
 						start : startT,
 						end : endT,
-						btDay : btDayT
+						btDay : btDayT,
+						tomorrow : tomorrowT
 					},
 					success : function(data, status, xhr) {
 
@@ -205,8 +222,8 @@
 		$('#canvasArea').html("<canvas id='myChartline'></canvas>")
 
 		var startT = $('#start').val()
-		
 		var endT = $('#end').val()
+		var tomorrowT = $('#tomorrow').val()
 		
 		console.log("시작일자  : " + startT);
 		console.log("종료일 : " + endT);
@@ -219,7 +236,8 @@
 			data : {
 				start : startT,
 				end : endT,
-				btDay : btDayT
+				btDay : btDayT,
+				tomorrow : tomorrowT
 			},
 			success : function(data, status, xhr) {
 
@@ -276,11 +294,14 @@
 							<%-- 기본값은 최근 일주일 조회 --%>
 							<form name="search" method="post">
 								<input type="date" id="start" name="start" min="2021-06-01"
-									max="" value=""> <strong>부터</strong> <input type="date"
-									id="end" name="end" min="2021-06-01" max="" value=""> <strong>까지</strong>
+									max="" value=""> <strong>부터</strong> 
+									<input type="date"	id="end" name="end" min="2021-06-01" max="" value="">
+									 <strong>까지</strong>
 								<input type="hidden" id="chooseGraph" value="bar"> <span
 									class="bbtn_s"><input type="button" value="조회"
-									title="지정기간 조회" onclick="searchChartTerm(this.form)"></span>
+									title="지정기간 조회" onclick="searchChartTerm(this.form)">
+									<input type="hidden" id="tomorrow" name="tomorrow" value=""> 
+									</span>
 							</form>
 						</div>
 

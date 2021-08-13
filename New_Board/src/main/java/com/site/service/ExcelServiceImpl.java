@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,8 @@ import com.site.mapper.ExcelMapper;
 @Service
 public class ExcelServiceImpl implements ExcelService {
 
+	public Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	ExcelMapper excelMapper;
 
@@ -50,7 +54,7 @@ public class ExcelServiceImpl implements ExcelService {
 
 		Sheet worksheet = workbook.getSheetAt(0);
 
-		System.out.println("입력할 줄의 수 : "+worksheet.getPhysicalNumberOfRows());
+		log.info("[ 입력할 줄의 수 : {} ]", worksheet.getPhysicalNumberOfRows());
 		// for문을 이용하여 엑셀파일 읽기(헤더Row 부분은 제외! 즉, i=1부터)
 		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
 			Row row = worksheet.getRow(i);
