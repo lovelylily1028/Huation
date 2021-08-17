@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "file.upload.directory",
+    "type": "java.lang.String",
+    "description": "A description for 'file.upload.directory'"
+  },
+  {
+    "name": "file.download.directory",
+    "type": "java.lang.String",
+    "description": "A description for 'file.download.directory'"
+  },
+  {
+    "name": "spring.second-datasource.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.driver-class-name'"
+  },
+  {
+    "name": "spring.second-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.url'"
+  },
+  {
+    "name": "spring.second-datasource.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.username'"
+  },
+  {
+    "name": "spring.second-datasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.password'"
+  }
+]}

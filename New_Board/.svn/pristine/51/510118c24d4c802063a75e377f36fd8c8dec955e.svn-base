@@ -14,7 +14,7 @@
 		<script type="text/javascript">
 		
 			/* 새글 작성페이지 준비 */
-			/* function addReady(){
+			function addReady(){
 				
 				var codeT = getParameterByName('code')
 				var rmtT = getParameterByName('rmt')
@@ -34,7 +34,7 @@
 					
 						html ="";
 						html +="<form method='post' enctype='multipart/form-data' name='addForm' id='addForm'>";
-						html +="<input type='hidden' name='writer' id='writer' value='"+login_id+""'>";
+						html +="<input type='hidden' name='writer' id='writer' value='huation'>";
 						html +="<input type='hidden' name='title' id='title' value=''>";
 						html +="<input type='hidden' name='acontent' id='acontent' value=''>";
 						html +="<input type='hidden' name='rmt' id='rmt' value='"+rmtT+"'>";
@@ -52,7 +52,7 @@
 				}
 			})
 					
-			} */
+			}
 		
 		
 		/* 새글 답글 db로 글 넘기기 */
@@ -137,28 +137,23 @@
 							<h2>글 작성하기</h2>
 						</div>
 						<div id="bbs_wrap">
-							<form action="/H2_jpa/post" method='post' enctype='multipart/form-data' name='addForm' id='addForm'>
 							<div class="board_write">
 								<dl>
 									<%-- 새로운 글 작성 OR 답글 제목 설정 --%>
 									<dt>제목</dt>
 									<dd>
-										<input class="tit" type="text" name="title" placeholder="제목을 입력해주세요.">
+										<input class="tit" type="text" id="titleTemp" placeholder="제목을 입력해주세요.">
 									</dd>
 									<dt>작성자</dt>
-									<dd id="writerTemp">
-										<input class="tit" type="text" name="writer" placeholder="제목을 입력해주세요.">
-									</dd>
+									<dd id="writerTemp"></dd>
 									<dd class="write_cont">
-										<textarea rows="15" cols="10" name="content" placeholder="내용을 입력해주세요."></textarea>
+										<textarea rows="15" cols="10" id="contentTemp"
+											placeholder="내용을 입력해주세요."></textarea>
 									</dd>
 								</dl>
+
 							</div>
-								<div class='btn_c'>
-								<span class='bbtn_bg1'><input type='submit' value='등록'></span>
-								</div>
-							</form>
-							</div>
+							<div id="writeForm"></div>
 							<!-- bbs wrap -->
 						</div>
 

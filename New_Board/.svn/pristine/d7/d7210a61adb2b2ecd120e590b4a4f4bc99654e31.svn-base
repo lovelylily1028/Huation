@@ -22,10 +22,10 @@ mybatis.mapper-locations:classpath:mapper/*.xml
 ########################################################
 # 			huation datasource(oracle)
 ########################################################
-#spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
-#spring.datasource.url=jdbc:oracle:thin:@192.168.2.82:1521/orcl
-#spring.datasource.username=new_yjchoi
-#spring.datasource.password=chldudwn1!
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@192.168.2.82:1521/orcl
+spring.datasource.username=new_yjchoi
+spring.datasource.password=chldudwn1!
 
 # DB 쿼리문 확인시에는 아래 코드로 대체하여 사용
 #spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -35,21 +35,11 @@ mybatis.mapper-locations:classpath:mapper/*.xml
 #					H2 DB 연결 
 ########################################################
 spring.second-datasource.driver-class-name=org.h2.Driver
-spring.second-datasource.url=jdbc:h2:mem:testdb
-#spring.second-datasource.url=jdbc:h2:file:D:/Data/sample
+spring.second-datasource.url=jdbc:h2:file:D:/Data/sample
 #spring.datasource.url=jdbc:h2:tcp://localhost/~/test
-spring.second-datasource.username=huation	
+spring.second-datasource.username=huation
 spring.second-datasource.password=1234
 spring.h2.console.enabled=true
-
-####################################################
-# 				쿼리 로그를 추가
-####################################################
-spring.jpa.show-sql=true
-#쿼리를 가독성 있게 찍기
-spring.jpa.properties.hibernate.format_sql=true
-#추가정보(주석) 찍기
-spring.jpa.properties.hibernate.use_sql_comments=true
 
 ########################################################
 #			file 업로드 / 다운로드 디렉토리
