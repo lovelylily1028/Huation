@@ -91,7 +91,7 @@
 						<tr>
 							<td class="num">${dto.id }</td>
 							<td class="tit">
-		                        <a href="#link">${dto.title }</a> &nbsp;
+		                        <a href="/H2_jpa/post/${dto.id}">${dto.title }</a> &nbsp;
 							</td>
 							<td class="writer">
 								${dto.writer }
@@ -106,7 +106,7 @@
 			<%-- 글쓰기 버튼 --%>
 			<div class="btn_all">
 				<div class="fR">
-					<span class="bbtn_confirm2"><input type="button" onclick="add_view()" value="글쓰기"></span>
+					<span class="bbtn_confirm2"><input type="button" onclick="location.href='/H2_jpa/add'" value="글쓰기"></span>
 				</div>				
 			</div>
 			<%-- // 글쓰기 버튼 --%>

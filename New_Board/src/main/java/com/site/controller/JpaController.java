@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -49,10 +51,24 @@ public class JpaController {
 	}
 	
 	
+	/**
+	 * 새글 작성 DB 업로드 
+	 * @param boardDto
+	 * @return
+	 */
 	@PostMapping("/post")
 	public String write(BoardDTO boardDto) {
 		jpaService.savePost(boardDto);
 		return "redirect:/H2_jpa/list";
+	}
+	
+	@GetMapping("/post/{no}")
+	public String detail(@PathVariable("no") Long id, Model model) {
+		BoardDTO boardDto = jpaService.getPost(id);
+		
+		model.addAttribute("boardDto", boardDto);
+		return "/jpa/view";
+		
 	}
 	
 	/**
