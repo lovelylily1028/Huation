@@ -1,4 +1,4 @@
-package com.site.service;
+package com.site.service.jpa;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.site.dto.jpa.BoardDTO;
@@ -18,7 +19,7 @@ import com.site.repository.BoardRepository;
 public class JpaService {
 
 	Map<String, Object> map;
-
+	
 	private BoardRepository boardRepository;
 
 	public JpaService(BoardRepository boardRepository) {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.site.dto.jpa.BoardDTO;
-import com.site.service.JpaService;
+import com.site.service.jpa.JpaService;
 
 @Controller
 @RequestMapping("/H2_jpa")
